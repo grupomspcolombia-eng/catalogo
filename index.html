@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#6E001B" />
   <title>Power Bank 20.000 mAh | Maison Pastrana</title>
-  <meta name="description" content="Power Bank 20.000 mAh de Maison Pastrana por $250.000: carga rápida USB-C, carga magnética y cables integrados USB-C y Lightning. Negro y marfil, con envío a todo el país." />
-  <meta name="keywords" content="power bank, power bank 20000 mAh, cargador portátil, carga rápida USB-C, carga inalámbrica magnética, Maison Pastrana" />
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta name="description" content="Power Bank 20.000 mAh de Maison Pastrana por $250.000: carga rápida USB-C de 22,5 W, carga inalámbrica magnética de 15 W y cables integrados USB-C y Lightning. En negro y marfil, con envío desde Medellín a todo Colombia." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="Maison Pastrana" />
   <meta name="geo.region" content="CO" />
   <meta name="geo.placename" content="Colombia" />
+  <meta name="geo.position" content="6.2442;-75.5812" />
+  <meta name="ICBM" content="6.2442, -75.5812" />
   <link rel="canonical" href="https://maisonpastrana.com/" />
+  <link rel="alternate" hreflang="es-CO" href="https://maisonpastrana.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://maisonpastrana.com/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Maison Pastrana" />
   <meta property="og:locale" content="es_CO" />
@@ -562,9 +565,53 @@
     .pedidos-card { flex: 0 1 440px; min-width: 0; background: #fff; color: #000; padding: 30px 32px 28px; display: flex; flex-direction: column; }
     .pedidos-card .head { padding-bottom: 14px; border-bottom: 1px solid #DDD3D5; }
     .pedidos-row { display: flex; flex-direction: column; gap: 4px; padding: 14px 0; border-bottom: 1px solid #DDD3D5; }
-    .pedidos-row:last-child { border-bottom: 0; }
+    .pedidos-row:last-of-type { border-bottom: 0; }
     .pedidos-row .k { color: #5E5256; }
     .pedidos-row .v { font-size: 20px; font-weight: 600; }
+    .pedidos-note { font-size: 14px; line-height: 1.6; color: #4A3B40; margin: 16px 0 0; }
+
+    /* ---------- texto introductorio ---------- */
+    .lead { max-width: 780px; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.7; color: #4A3B40; margin: 0; }
+    .lead strong { color: #000; font-weight: 700; }
+    .lead-right { max-width: 460px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+    /* ---------- ficha técnica ---------- */
+    .specs-wrap { background: #fff; border: 1px solid #E7E0E1; padding: clamp(20px, 3vw, 34px); }
+    .specs-title { margin: 0 0 18px; font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #6E001B; }
+    .specs { width: 100%; border-collapse: collapse; text-align: left; }
+    .specs th, .specs td { padding: 12px 0; border-bottom: 1px solid #EFE9EA; vertical-align: top; }
+    .specs tr:last-child th, .specs tr:last-child td { border-bottom: 0; }
+    .specs th { width: 38%; padding-right: 20px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #6E5259; }
+    .specs td { font-size: 15px; line-height: 1.5; color: #1A1214; }
+
+    /* ---------- preguntas frecuentes ---------- */
+    .faq { margin-top: 36px; display: flex; flex-direction: column; gap: 24px; }
+    .faq-intro { max-width: 520px; font-size: 15px; line-height: 1.6; color: #5E5256; margin: 0; }
+    .faq-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start; }
+    .faq-item { background: #fff; border: 1px solid #E7E0E1; }
+    .faq-item[open] { border-color: #D9C9CD; }
+    .faq-item summary { list-style: none; cursor: pointer; padding: 18px 52px 18px 22px; position: relative; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::marker { content: ''; }
+    .faq-item summary::after {
+      content: '+';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+      font-weight: 300;
+      line-height: 1;
+      color: #6E001B;
+      transition: transform .25s ease, opacity .25s ease;
+    }
+    .faq-item[open] summary::after { content: '\2013'; }
+    .faq-item summary h3 { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35; letter-spacing: -.01em; color: #14100F; }
+    .faq-item summary:focus-visible { outline: 2px solid #6E001B; outline-offset: -2px; }
+    .faq-item > p { margin: 0; padding: 0 22px 20px; font-size: 14.5px; line-height: 1.7; color: #4A3B40; }
+    .faq-item > p strong { color: #000; font-weight: 700; }
+    .faq-item > p a { color: #6E001B; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 
     .site-footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
     .footer-brand { display: flex; align-items: center; gap: 14px; }
@@ -702,6 +749,7 @@
 
     @media (max-width: 900px) {
       .bento, .gal { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .faq-list { grid-template-columns: minmax(0, 1fr); }
 
       /* barra móvil: logo · Pedir · menú */
       .site-header {
@@ -768,6 +816,7 @@
       .site-nav.is-open > a:nth-child(3) { transition-delay: .18s; }
       .site-nav.is-open > a:nth-child(4) { transition-delay: .24s; }
       .site-nav.is-open > a:nth-child(5) { transition-delay: .30s; }
+      .site-nav.is-open > a:nth-child(6) { transition-delay: .36s; }
       .site-nav > a::after { display: none; }
       .site-nav > a.is-active { color: #E6A0B0; }
 
@@ -796,7 +845,12 @@
       .s2.r2 { grid-row: auto; }
       .gal .g2, .gal .g2w { grid-column: auto; grid-row: auto; }
       .hl { width: 128px; padding: 8px 10px; }
+      .specs th { width: auto; padding-right: 14px; font-size: 10px; }
+      .specs td { font-size: 14px; }
+      .faq-item summary { padding: 16px 46px 16px 18px; }
+      .faq-item > p { padding: 0 18px 18px; }
     }
+
   </style>
   <script type="application/ld+json">
   {
@@ -814,11 +868,19 @@
           "height": 403
         },
         "sameAs": ["https://www.instagram.com/maisonpastrana"],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Medellín",
+          "addressRegion": "Antioquia",
+          "addressCountry": "CO"
+        },
+        "areaServed": { "@type": "Country", "name": "Colombia" },
         "contactPoint": [
           {
             "@type": "ContactPoint",
             "contactType": "Ventas",
             "telephone": "+57-324-371-5818",
+            "url": "https://wa.me/573243715818",
             "areaServed": "CO",
             "availableLanguage": ["es"]
           }
@@ -837,7 +899,9 @@
         "name": "Power Bank Maison Pastrana 20.000 mAh HW35W",
         "model": "HW35W",
         "description": "Power bank HW35W de 20.000 mAh / 77 Wh con carga rápida USB-C (hasta 22,5 W), carga inalámbrica magnética (hasta 15 W), cables integrados USB-C y Lightning, carga magnética para reloj (3 W), indicador LED. Disponible en negro y marfil.",
-        "brand": { "@type": "Brand", "name": "Maison Pastrana" },
+        "brand": { "@type": "Brand", "name": "Maison Pastrana", "logo": "https://maisonpastrana.com/assets/mp-logo.png" },
+        "sku": "HW35W",
+        "mpn": "HW35W",
         "color": "Negro y Marfil",
         "category": "Power banks",
         "url": "https://maisonpastrana.com/",
@@ -858,17 +922,79 @@
           { "@type": "PropertyValue", "name": "Carga inalámbrica magnética", "value": "15", "unitText": "W" },
           { "@type": "PropertyValue", "name": "Carga magnética para reloj", "value": "3", "unitText": "W" },
           { "@type": "PropertyValue", "name": "Cables integrados", "value": "USB-C y Lightning" },
-          { "@type": "PropertyValue", "name": "Entrada USB-C", "value": "5V/3A, 9V/2A, 12V/1.5A" }
+          { "@type": "PropertyValue", "name": "Entrada USB-C", "value": "5V/3A, 9V/2A, 12V/1.5A" },
+          { "@type": "PropertyValue", "name": "Niveles de carga inalámbrica", "value": "5 / 7,5 / 10 / 15 W" },
+          { "@type": "PropertyValue", "name": "Color", "value": "Negro y Marfil" },
+          { "@type": "PropertyValue", "name": "Peso", "value": "344 g" },
+          { "@type": "PropertyValue", "name": "Incluye", "value": "Cable USB-C integrado, conector Lightning integrado, caja de regalo" }
         ],
         "offers": {
           "@type": "Offer",
           "price": "250000",
           "priceCurrency": "COP",
+          "priceValidUntil": "2027-12-31",
           "availability": "https://schema.org/InStock",
+          "itemCondition": "https://schema.org/NewCondition",
           "url": "https://maisonpastrana.com/",
           "areaServed": "CO",
           "seller": { "@id": "https://maisonpastrana.com/#organization" }
         }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://maisonpastrana.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cuántas veces puedo cargar mi teléfono con este power bank?",
+            "acceptedAnswer": { "@type": "Answer", "text": "El Power Bank Maison Pastrana tiene 20.000 mAh (77 Wh) de capacidad. Con esa energía puedes darle varias cargas completas a un teléfono a lo largo del día, o repartir la carga entre el teléfono, el reloj y otros accesorios." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Es compatible con iPhone y Android?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Sí. Trae el cable USB-C integrado en el cuerpo y un conector Lightning integrado: el USB-C funciona con iPhone 15 o superior, iPad, Android y cualquier dispositivo USB-C, y el Lightning es para iPhone con puerto Lightning. Además, la carga inalámbrica magnética carga el teléfono pegado al cuerpo." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Necesito comprar cables aparte?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Los cables están integrados en el cuerpo del Power Bank: el USB-C también funciona de correa para que no se enrede, y el Lightning va integrado en el otro extremo." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué tan rápido carga?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Por cable entrega hasta 22,5 W de salida USB-C, y por vía inalámbrica hasta 15 W, con niveles de 5, 7,5, 10 y 15 W según el dispositivo. La carga magnética para reloj es de 3 W." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Puedo cargar un Apple Watch o un reloj inteligente?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Sí. Tiene carga magnética para reloj de 3 W, para cargar el reloj junto con el teléfono." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cuánto tarda en cargarse el power bank?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Se carga por su puerto USB-C, con una entrada de 5V/3A, 9V/2A o 12V/1,5A, así que puedes conectarlo al cargador de tu celular o a un enchufe de pared." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cómo sé cuánto batería le queda?",
+            "acceptedAnswer": { "@type": "Answer", "text": "El indicador LED del cuerpo muestra el nivel de batería de un vistazo." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué incluye la caja?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Cada Power Bank llega en una caja de regalo con el monograma en dorado, lista para entregar." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cuánto cuesta y a dónde hacen envíos?",
+            "acceptedAnswer": { "@type": "Answer", "text": "El precio es de $250.000 COP en negro y marfil. Hacemos envíos desde Medellín a todo el país. Escríbenos por WhatsApp o Instagram para confirmar la entrega en tu ciudad." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿De qué colores viene y cómo lo pido?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Viene en negro y en marfil, con el monograma MSP grabado en el cuerpo. Para pedirlo, escríbenos por WhatsApp al +57 324 371 5818 o por Instagram @maisonpastrana." }
+          }
+        ]
       }
     ]
   }
@@ -886,6 +1012,7 @@
         <a href="#anatomia">Anatomía</a>
         <a href="#colores">Colores</a>
         <a href="#uso">En uso</a>
+        <a href="#faq">Preguntas</a>
         <a href="#pedidos">Pedidos</a>
         <div class="nav-extra">
           <div class="nav-contact">
@@ -986,7 +1113,9 @@
             <span class="big">Lo</span>
             <span class="script">esencial</span>
           </h2>
-          </div>
+        </div>
+        <p class="lead">Un power bank de <strong>20.000 mAh (77 Wh)</strong> con carga rápida por USB-C de hasta <strong>22,5 W</strong> y carga inalámbrica magnética de hasta <strong>15 W</strong>. Los cables van <strong>integrados en el cuerpo</strong> —USB-C y Lightning— así que nunca dependes de encontrar uno en la bolsa.</p>
+
         <div class="bento">
           <div class="tile ch-m" style="background:#000;color:#fff">
             <svg width="60" height="60" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="#3A000E" stroke-width="8"></circle><circle cx="32" cy="32" r="26" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-dasharray="122 164" transform="rotate(-90 32 32)"></circle></svg>
@@ -998,10 +1127,10 @@
           </div>
           <div class="bento-img s2 r2 ch-m">
             <img src="assets/pb-specs.jpg" alt="Dos Power Bank de color marfil con carga inalámbrica magnética" loading="lazy" decoding="async" width="860" height="1146" />
-            <div class="card ch-s"><div class="lbl">Magnetic Wireless Charging</div><div class="t">Carga sin cables sobre el cuerpo</div></div>
+            <div class="card ch-s"><div class="lbl">Carga inalámbrica magnética</div><div class="t">Carga sin cables sobre el cuerpo</div></div>
           </div>
           <div class="tile s2 ch-m watts" style="background:#F3EFEF">
-            <img src="assets/mp-monograma-rojo.png" alt="" aria-hidden="true" class="watts-watermark" loading="lazy" decoding="async" />
+            <img src="assets/mp-monograma-rojo.png" alt="" aria-hidden="true" class="watts-watermark" loading="lazy" decoding="async" width="625" height="1034" />
             <div class="lbl">Salida inalámbrica</div>
             <div>
               <div class="v">5 · 7,5 · 10 · 15 W</div>
@@ -1025,10 +1154,32 @@
             <div><div class="t22">2 colores</div><div class="n13">Negro y Marfil</div></div>
           </div>
         </div>
+
+        <div class="specs-wrap">
+          <h3 class="specs-title">Ficha técnica del Power Bank HW35W</h3>
+          <table class="specs">
+            <caption class="sr-only">Especificaciones técnicas del Power Bank Maison Pastrana HW35W de 20.000 mAh</caption>
+            <tbody>
+              <tr><th scope="row">Capacidad</th><td>20.000 mAh · 77 Wh</td></tr>
+              <tr><th scope="row">Carga rápida por cable (USB-C)</th><td>Hasta 22,5 W</td></tr>
+              <tr><th scope="row">Carga inalámbrica magnética</th><td>5 · 7,5 · 10 · 15 W (hasta 15 W)</td></tr>
+              <tr><th scope="row">Carga magnética para reloj</th><td>3 W</td></tr>
+              <tr><th scope="row">Entrada USB-C</th><td>5V/3A · 9V/2A · 12V/1,5A</td></tr>
+              <tr><th scope="row">Cables integrados</th><td>USB-C (también de correa) y Lightning</td></tr>
+              <tr><th scope="row">Indicador</th><td>LED de nivel de batería</td></tr>
+              <tr><th scope="row">Dimensiones</th><td>106 × 74 × 33 mm</td></tr>
+              <tr><th scope="row">Peso</th><td>344 g</td></tr>
+              <tr><th scope="row">Colores</th><td>Negro y Marfil</td></tr>
+              <tr><th scope="row">Incluye</th><td>Power Bank con cables integrados y caja de regalo con monograma en dorado</td></tr>
+              <tr><th scope="row">Precio</th><td>$250.000 COP</td></tr>
+              <tr><th scope="row">Envíos</th><td>Desde Medellín a todo Colombia</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section class="anatomia ch-l" id="anatomia" aria-label="Anatomía del Power Bank">
-        <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="anatomia-watermark" loading="lazy" decoding="async" />
+        <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="anatomia-watermark" loading="lazy" decoding="async" width="699" height="1157" />
         <div class="sec-head" style="position:relative">
           <h2 class="sec-title">
             <span class="big">Anatomía</span>
@@ -1114,7 +1265,7 @@
       </section>
 
       <section class="regalo ch-l" aria-label="Caja de regalo">
-        <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="regalo-watermark" loading="lazy" decoding="async" />
+        <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="regalo-watermark" loading="lazy" decoding="async" width="699" height="1157" />
         <div class="regalo-deckwrap">
           <div class="deck" id="deck" tabindex="0" role="group" aria-roledescription="animación" aria-label="Animación: un teléfono con la batería baja se carga de cuatro formas distintas con el Power Bank (MagSafe, cable USB-C integrado, cable Lightning integrado y cable USB-C a USB-C). Toca para pasar a la siguiente.">
             <div class="momento" id="momento" data-state="idle" data-mode="mag" data-lvl="low" role="img" aria-label="Un teléfono muestra la foto del Power Bank; llega un mensaje importante y aparece el aviso de batería baja. La foto sale de la pantalla, se convierte en el Power Bank y carga el teléfono por MagSafe, con el cable USB-C integrado, con el cable Lightning integrado o con un cable USB-C a USB-C.">
@@ -1124,7 +1275,7 @@
                   <span class="mo-lens"></span>
                   <span class="mo-slot"></span>
                   <span class="mo-port"></span>
-                  <img class="mo-msp" src="assets/mp-monograma-footer.png" alt="" />
+                  <img class="mo-msp" src="assets/mp-monograma-footer.png" alt="" width="625" height="1035" />
                 </div>
                 <svg class="mo-cable" viewBox="0 0 420 540" aria-hidden="true">
                   <path id="cb-out" class="cb-out"/>
@@ -1162,7 +1313,7 @@
         </div>
         <div class="regalo-text">
           <h2 class="regalo-title" id="regalo-title"><span class="w" style="--i:0">Para</span> <span class="w" style="--i:1">los</span> <span class="w" style="--i:2">momentos</span> <span class="w" style="--i:3">donde</span> <span class="w" style="--i:4">no</span> <span class="w" style="--i:5">puedas</span> <span class="w" style="--i:6">fallar</span></h2>
-          <p class="regalo-desc">Cada Power Bank llega en una caja de regalo con el monograma en dorado, lista para entregar.</p>
+          <p class="regalo-desc">Cada Power Bank llega en una caja de regalo con el monograma en dorado, lista para entregar. Es un accesorio pensado para acompañar el teléfono todo el día: en el auto, en la mano, en el bolso o de viaje.</p>
           <a href="#pedidos" class="btn ch-s" style="background:#fff;color:#000">Hacer pedido</a>
         </div>
       </section>
@@ -1173,7 +1324,9 @@
             <span class="big">En el día</span>
             <span class="script">a día</span>
           </h2>
-          </div>
+          <p class="lead lead-right">Un cargador portátil de <strong>20.000 mAh</strong> que cabe en la palma de la mano y va contigo del auto a la oficina, a la fiesta o al viaje: se pega al teléfono por MagSafe o conectas el cable integrado y sigues.</p>
+        </div>
+
         <div class="gal">
           <div class="ch-m g2"><img src="assets/pb-dos-colores.jpg" alt="Power Bank marfil y negro lado a lado" loading="lazy" decoding="async" width="900" height="1200" style="object-position:50% 55%" /><div class="cap ch-s">Negro y Marfil</div></div>
           <div class="ch-m"><img src="assets/pb-auto.jpg" alt="Power Bank en la consola del auto" loading="lazy" decoding="async" width="720" height="720" /><div class="cap ch-s">En el auto</div></div>
@@ -1182,9 +1335,61 @@
         </div>
       </section>
 
+      <section class="faq" id="faq" aria-label="Preguntas frecuentes">
+        <div class="sec-head">
+          <h2 class="sec-title balanced">
+            <span class="big">Lo que</span>
+            <span class="script">preguntan</span>
+          </h2>
+          <p class="faq-intro">Las dudas más comunes sobre el Power Bank Maison Pastrana: capacidad, compatibilidad, cables, envío y precio.</p>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary><h3>¿Cuántas veces puedo cargar mi teléfono con este power bank?</h3></summary>
+            <p>El Power Bank Maison Pastrana tiene <strong>20.000 mAh (77 Wh)</strong> de capacidad. Con esa energía puedes darle varias cargas completas a un teléfono a lo largo del día, o repartir la carga entre el teléfono, el reloj y otros accesorios.</p>
+          </details>
+          <details class="faq-item">
+            <summary><h3>¿Es compatible con iPhone y Android?</h3></summary>
+            <p>Sí. Trae el <strong>cable USB-C integrado</strong> en el cuerpo y un <strong>conector Lightning integrado</strong>: el USB-C funciona con iPhone 15 o superior, iPad, Android y cualquier dispositivo USB-C, y el Lightning es para iPhone con puerto Lightning. Además, la carga inalámbrica magnética carga el teléfono pegado al cuerpo.</p>
+          </details>
+          <details class="faq-item">
+            <summary><h3>¿Necesito comprar cables aparte?</h3></summary>
+            <p>No. Los cables están integrados en el cuerpo del Power Bank: el USB-C también funciona de correa para que no se enrede, y el Lightning va integrado en el otro extremo.</p>
+          </details>
+          <details class="faq-item">
+            <summary><h3>¿Qué tan rápido carga?</h3></summary>
+            <p>Por cable entrega hasta <strong>22,5 W</strong> de salida USB-C, y por vía inalámbrica hasta <strong>15 W</strong>, con niveles de 5, 7,5, 10 y 15 W según el dispositivo. La carga magnética para reloj es de 3 W.</p>
+          </details>
+          <details class="faq-item">
+            <summary><h3>¿Puedo cargar un Apple Watch o un reloj inteligente?</h3></summary>
+            <p>Sí. Tiene <strong>carga magnética para reloj de 3 W</strong>, para cargar el reloj junto con el teléfono.</p>
+          </details>
+          <details class="faq-item">
+            <summary><h3>¿Cuánto tarda en cargarse el power bank?</h3></summary>
+            <p>Se carga por su puerto USB-C, con una entrada de 5V/3A, 9V/2A o 12V/1,5A, así que puedes conectarlo al cargador de tu celular o a un enchufe de pared.</p>
+          </details>
+          <details class="faq-item">
+            <summary><h3>¿Cómo sé cuánto batería le queda?</h3></summary>
+            <p>El <strong>indicador LED</strong> del cuerpo muestra el nivel de batería de un vistazo.</p>
+          </details>
+          <details class="faq-item">
+            <summary><h3>¿Qué incluye la caja?</h3></summary>
+            <p>Cada Power Bank llega en una <strong>caja de regalo con el monograma en dorado</strong>, lista para entregar.</p>
+          </details>
+          <details class="faq-item">
+            <summary><h3>¿Cuánto cuesta y a dónde hacen envíos?</h3></summary>
+            <p>El precio es de <strong>$250.000 COP</strong> en negro y marfil. Hacemos envíos <strong>desde Medellín a todo el país</strong>. Escríbenos por WhatsApp o Instagram para confirmar la entrega en tu ciudad.</p>
+          </details>
+          <details class="faq-item">
+            <summary><h3>¿De qué colores viene y cómo lo pido?</h3></summary>
+            <p>Viene en <strong>negro y en marfil</strong>, con el monograma MSP grabado en el cuerpo. Para pedirlo, escríbenos por WhatsApp al <a href="https://wa.me/573243715818">+57 324 371 5818</a> o por Instagram <a href="https://www.instagram.com/maisonpastrana" target="_blank" rel="noopener">@maisonpastrana</a>.</p>
+          </details>
+        </div>
+      </section>
+
       <section class="pedidos ch-l" id="pedidos" aria-label="Pedidos">
         <div class="pedidos-watermark" aria-hidden="true">Pastrana</div>
-        <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="pedidos-mono" loading="lazy" decoding="async" />
+        <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="pedidos-mono" loading="lazy" decoding="async" width="699" height="1157" />
         <div class="pedidos-inner">
           <div class="pedidos-brand">
             <img src="assets/mp-logo-big.png" alt="Maison Pastrana" width="944" height="381" loading="lazy" decoding="async" class="pedidos-logo" />
@@ -1196,6 +1401,7 @@
             <div class="pedidos-row"><span class="lbl k">Instagram</span><a class="v" href="https://www.instagram.com/maisonpastrana" target="_blank" rel="noopener">@maisonpastrana</a></div>
             <div class="pedidos-row"><span class="lbl k">WhatsApp</span><a class="v" href="https://wa.me/573243715818">+57 324 371 5818</a></div>
             <div class="pedidos-row"><span class="lbl k">Envíos</span><span class="v">Desde Medellín · a todo el país</span></div>
+            <p class="pedidos-note">El Power Bank Maison Pastrana cuesta <strong>$250.000 COP</strong> y está disponible en negro y marfil. Escríbenos para confirmar la entrega en tu ciudad.</p>
             <a class="btn ch-s" style="margin-top:20px;background:#6E001B;color:#fff;justify-content:center" href="https://wa.me/573243715818?text=Hola%2C%20quiero%20pedir%20el%20Power%20Bank%20Maison%20Pastrana.">Pedir por WhatsApp</a>
           </div>
         </div>
