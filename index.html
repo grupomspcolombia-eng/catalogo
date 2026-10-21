@@ -605,7 +605,6 @@
           <img src="assets/mp-monograma-rojo.png" alt="Monograma Maison Pastrana en rojo" loading="lazy" decoding="async" width="625" height="1034" />
         </div>
         <div class="statement-text">
-          <span class="sec" style="color:#6E001B">01/</span>
           <h2 class="statement-head">Presencia, actitud y seguridad <span class="dim">en un accesorio de 20.000 mAh que acompaña tu día.</span></h2>
           <div class="statement-script">Poder de la elegancia</div>
         </div>
@@ -617,8 +616,7 @@
             <span class="big">Lo</span>
             <span class="script">esencial</span>
           </h2>
-          <span class="sec" style="color:#6E001B">02/</span>
-        </div>
+          </div>
         <div class="bento">
           <div class="tile ch-m" style="background:#000;color:#fff">
             <svg width="60" height="60" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="#3A000E" stroke-width="8"></circle><circle cx="32" cy="32" r="26" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-dasharray="122 164" transform="rotate(-90 32 32)"></circle></svg>
@@ -666,8 +664,7 @@
             <span class="big">Anatomía</span>
             <span class="script">del Power Bank</span>
           </h2>
-          <span class="sec">03/</span>
-        </div>
+          </div>
         <div class="anatomia-grid">
           <div class="anatomia-media">
             <div class="anatomia-stage" id="anatomia-stage">
@@ -707,8 +704,7 @@
             <span class="big">Negro o</span>
             <span class="script">Marfil</span>
           </h2>
-          <span class="sec" style="color:#6E001B">04/</span>
-        </div>
+          </div>
         <div class="color-cards">
           <div class="color-card ch-l" style="background:#000;color:#fff">
             <div class="shot ch-m"><img src="assets/pb-negro.jpg" alt="Power Bank negro" loading="lazy" decoding="async" width="1100" height="830" /></div>
@@ -761,7 +757,6 @@
           <p class="deck-hint">Toca o desliza la tarjeta para ver otra perspectiva.</p>
         </div>
         <div class="regalo-text">
-          <span class="sec">05/</span>
           <h2 class="regalo-title">Para los momentos donde no puedas fallar</h2>
           <p class="regalo-desc">Cada Power Bank llega en una caja de regalo con el monograma en dorado, lista para entregar.</p>
           <a href="#pedidos" class="btn ch-s" style="background:#fff;color:#000">Hacer pedido</a>
@@ -774,8 +769,7 @@
             <span class="big">En el día</span>
             <span class="script">a día</span>
           </h2>
-          <span class="sec" style="color:#6E001B">06/</span>
-        </div>
+          </div>
         <div class="gal">
           <div class="ch-m g2"><img src="assets/pb-dos-colores.jpg" alt="Power Bank marfil y negro lado a lado" loading="lazy" decoding="async" width="900" height="1200" style="object-position:50% 55%" /><div class="cap ch-s">Negro y Marfil</div></div>
           <div class="ch-m"><img src="assets/pb-auto.jpg" alt="Power Bank en la consola del auto" loading="lazy" decoding="async" width="720" height="720" /><div class="cap ch-s">En el auto</div></div>
@@ -789,7 +783,6 @@
         <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="pedidos-mono" loading="lazy" decoding="async" />
         <div class="pedidos-inner">
           <div class="pedidos-brand">
-            <span class="sec">07/</span>
             <img src="assets/mp-logo-big.png" alt="Maison Pastrana" width="944" height="381" loading="lazy" decoding="async" class="pedidos-logo" />
             <div class="pedidos-script">Poder de la</div>
             <h2 class="pedidos-elegancia">Elegancia</h2>
@@ -813,6 +806,181 @@
       </div>
       <span class="footer-copy">Poder de la elegancia</span>
     </footer>
+
+  </div>
+<script>
+  (function () {
+    /* ---------- Anatomía: puntos interactivos ---------- */
+    var stage = document.getElementById('anatomia-stage');
+    if (stage) {
+      var card = document.getElementById('pin-card');
+      var pins = stage.querySelectorAll('.pin');
+      var rows = document.querySelectorAll('.anatomy-row');
+      var list = document.querySelector('.anatomia-list');
+      var data = [];
+      rows.forEach(function (r) {
+        data.push({ t: r.querySelector('.t').textContent, d: r.querySelector('.d').textContent });
+      });
+      var active = null;
+
+      var leader = document.getElementById('leader');
+      function place(pin) {
+        var sw = stage.clientWidth;
+        var px = pin.offsetLeft, py = pin.offsetTop;
+        var cw = card.offsetWidth, ch = card.offsetHeight;
+        var left = 8, top = 8;
+        card.style.left = left + 'px';
+        card.style.top = top + 'px';
+        var ax = Math.min(Math.max(left + 20, px), left + cw - 20);
+        var ay = top + ch;
+        var dxl = px - ax, dyl = py - ay, len = Math.sqrt(dxl * dxl + dyl * dyl) || 1;
+        var ex = px - dxl / len * 19, ey = py - dyl / len * 19;   // se detiene en el borde del punto
+        var ln = leader.querySelector('line');
+        ln.setAttribute('x1', ax); ln.setAttribute('y1', ay);
+        ln.setAttribute('x2', ex); ln.setAttribute('y2', ey);
+        var c = leader.querySelector('circle');
+        c.setAttribute('cx', ax); c.setAttribute('cy', ay);
+      }
+
+      function open(i, focusCard) {
+        var pin = pins[i - 1];
+        active = i;
+        pins.forEach(function (p) { p.setAttribute('aria-expanded', p === pin ? 'true' : 'false'); });
+        rows.forEach(function (r, k) { r.classList.toggle('is-active', k === i - 1); });
+        list.classList.add('has-active');
+        card.querySelector('.pc-n').textContent = String(i);
+        card.querySelector('.pc-t').textContent = data[i - 1].t;
+        card.querySelector('.pc-d').textContent = data[i - 1].d;
+        place(pin);
+        card.classList.add('is-open');
+        leader.classList.add('is-open');
+        if (focusCard) { stage.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+      }
+      function close() {
+        active = null;
+        card.classList.remove('is-open');
+        leader.classList.remove('is-open');
+        pins.forEach(function (p) { p.setAttribute('aria-expanded', 'false'); });
+        rows.forEach(function (r) { r.classList.remove('is-active'); });
+        list.classList.remove('has-active');
+      }
+
+      pins.forEach(function (p) {
+        p.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var i = +p.getAttribute('data-i');
+          if (active === i) { close(); } else { open(i); }
+        });
+      });
+      rows.forEach(function (r, k) {
+        function go() { if (active === k + 1) { close(); } else { open(k + 1, true); } }
+        r.addEventListener('click', go);
+        r.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+        });
+      });
+      card.querySelector('.pc-x').addEventListener('click', function (e) { e.stopPropagation(); close(); });
+      card.addEventListener('click', function (e) { e.stopPropagation(); });
+      document.addEventListener('click', function (e) {
+        if (!active || e.target.closest('.anatomy-row')) return;
+        if (!stage.contains(e.target) || e.target.closest('.anatomia-shot')) { close(); }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && active) { var pin = pins[active - 1]; close(); pin.focus(); }
+      });
+      window.addEventListener('resize', function () { if (active) { place(pins[active - 1]); } });
+    }
+
+    /* ---------- Caja de regalo: mazo de tarjetas ---------- */
+    var deck = document.getElementById('deck');
+    if (deck) {
+      var cards = Array.prototype.slice.call(deck.querySelectorAll('.deck-card'));
+      var n = cards.length;
+      var order = cards.slice();           // order[0] es la tarjeta de arriba
+      var capT = document.querySelector('.dc-t');
+      var capD = document.querySelector('.dc-d');
+      var count = document.querySelector('.deck-count');
+      var busy = false;
+
+      function render() {
+        order.forEach(function (c, d) {
+          c.setAttribute('data-depth', Math.min(d, 3));
+          c.style.opacity = d > 3 ? 0 : 1;
+          c.style.transform = '';
+          c.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
+        });
+        var top = order[0];
+        capT.textContent = top.getAttribute('data-t');
+        capD.textContent = top.getAttribute('data-d');
+        count.textContent = (cards.indexOf(top) + 1) + ' / ' + n;
+      }
+
+      function next(dir) {
+        if (busy) return;
+        busy = true;
+        var top = order[0];
+        var d = dir || 1;
+        top.style.transform = 'translate(' + (d * 120) + '%, 20px) rotate(' + (d * 18) + 'deg)';
+        top.style.opacity = 0;
+        setTimeout(function () {
+          order.push(order.shift());
+          top.classList.add('no-tr');
+          render();
+          void top.offsetWidth;
+          top.classList.remove('no-tr');
+          busy = false;
+        }, 300);
+      }
+      function prev() {
+        if (busy) return;
+        busy = true;
+        var last = order[order.length - 1];
+        last.classList.add('no-tr');
+        last.style.transform = 'translate(-120%, 20px) rotate(-18deg)';
+        last.style.opacity = 0;
+        void last.offsetWidth;
+        last.classList.remove('no-tr');
+        order.unshift(order.pop());
+        render();
+        setTimeout(function () { busy = false; }, 450);
+      }
+
+      document.getElementById('deck-next').addEventListener('click', function () { next(1); });
+      document.getElementById('deck-prev').addEventListener('click', prev);
+      deck.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { e.preventDefault(); next(1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+      });
+
+      // arrastrar la tarjeta de arriba (o tocarla)
+      var sx = 0, sy = 0, dx = 0, drag = null, moved = false;
+      deck.addEventListener('pointerdown', function (e) {
+        var t = e.target.closest('.deck-card');
+        if (!t || t !== order[0] || busy) return;
+        drag = t; sx = e.clientX; sy = e.clientY; dx = 0; moved = false;
+        t.classList.add('dragging');
+        t.setPointerCapture(e.pointerId);
+      });
+      deck.addEventListener('pointermove', function (e) {
+        if (!drag) return;
+        dx = e.clientX - sx;
+        if (Math.abs(dx) > 6) moved = true;
+        drag.style.transform = 'translate(' + dx + 'px, ' + ((e.clientY - sy) * .2) + 'px) rotate(' + (dx / 18) + 'deg)';
+      });
+      function end() {
+        if (!drag) return;
+        var t = drag; drag = null;
+        t.classList.remove('dragging');
+        if (!moved) { t.style.transform = ''; next(1); return; }
+        if (Math.abs(dx) > 70) { next(dx > 0 ? 1 : -1); } else { t.style.transform = ''; }
+      }
+      deck.addEventListener('pointerup', end);
+      deck.addEventListener('pointercancel', end);
+
+      render();
+    }
+  })();
+  </script>
 
   </div>
 </body>
