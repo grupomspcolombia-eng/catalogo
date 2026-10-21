@@ -340,7 +340,49 @@
     .regalo-desc { max-width: 440px; font-size: 17px; line-height: 1.6; color: rgba(255, 255, 255, .82); }
 
     .uso { margin-top: 36px; display: flex; flex-direction: column; gap: 24px; }
-    .gal { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 250px; gap: 16px; }
+/* ===== Mazo de tarjetas (caja de regalo) ===== */
+    .regalo-deckwrap { position: relative; flex: 1 1 360px; max-width: 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+    .deck { position: relative; aspect-ratio: 3/4; margin: 8px 22px 34px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .deck-card {
+      position: absolute; inset: 0;
+      background: #000; overflow: hidden;
+      border: 6px solid #fff;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .45);
+      transform-origin: 50% 90%;
+      transition: transform .45s cubic-bezier(.2, .8, .2, 1), opacity .3s;
+      will-change: transform;
+    }
+    .deck-card img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; -webkit-user-drag: none; }
+    .deck-card[data-depth="0"] { transform: none; cursor: grab; z-index: 4; }
+    .deck-card[data-depth="1"] { transform: translate(12px, 8px) rotate(3.5deg); z-index: 3; }
+    .deck-card[data-depth="2"] { transform: translate(-12px, 12px) rotate(-4deg); z-index: 2; }
+    .deck-card[data-depth="3"] { transform: translate(6px, 16px) rotate(6deg); z-index: 1; }
+    .deck-card.no-tr { transition: none; }
+    .deck-card.dragging { transition: none; cursor: grabbing; }
+    .deck-card:focus-visible { outline: 2px solid #E6A0B0; outline-offset: 4px; }
+    .deck-tag {
+      position: absolute; left: 0; bottom: 0; right: 0;
+      padding: 40px 18px 14px;
+      background: linear-gradient(to top, rgba(0, 0, 0, .75), transparent);
+      color: #fff; font-size: 13px; font-weight: 700; letter-spacing: .02em;
+    }
+    .deck-ui { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 18px; }
+    .deck-cap { min-width: 0; }
+    .deck-cap .dc-t { font-size: 17px; font-weight: 700; }
+    .deck-cap .dc-d { font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, .72); margin-top: 3px; }
+    .deck-btns { display: flex; gap: 10px; flex: 0 0 auto; align-items: center; }
+    .deck-count { font-size: 12px; font-weight: 700; letter-spacing: .1em; color: #E6A0B0; min-width: 40px; text-align: right; }
+    .deck-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .5); background: transparent; color: #fff;
+      font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .2s, color .2s;
+    }
+    .deck-btn:hover { background: #fff; color: #000; }
+    .deck-btn:focus-visible { outline: 2px solid #E6A0B0; outline-offset: 3px; }
+    .deck-hint { font-size: 12px; color: rgba(255, 255, 255, .6); padding: 0 18px; margin: -8px 0 0; }
+
+        .gal { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 250px; gap: 16px; }
     .gal > div { position: relative; overflow: hidden; background: #F3EFEF; min-width: 0; }
     .gal img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
     .gal .g2 { grid-column: span 2; grid-row: span 2; }
@@ -628,23 +670,33 @@
         </div>
         <div class="anatomia-grid">
           <div class="anatomia-media">
-            <div class="anatomia-shot ch-l">
-              <img src="assets/pb-specs.jpg" alt="Power Bank blanco con sus componentes numerados" loading="lazy" decoding="async" width="860" height="1146" />
-              <div class="mk" style="left:59%;top:55.6%">1</div>
-              <div class="mk" style="left:29%;top:65.3%">2</div>
-              <div class="mk" style="left:37%;top:71%">3</div>
-              <div class="mk" style="left:65%;top:78.4%">6</div>
-              <div class="mk" style="left:51%;top:83%">5</div>
-              <div class="mk" style="left:80%;top:43%">4</div>
+            <div class="anatomia-stage" id="anatomia-stage">
+              <div class="anatomia-shot ch-l">
+                <img src="assets/pb-specs.jpg" alt="Power Bank blanco con sus componentes numerados" loading="lazy" decoding="async" width="860" height="1146" />
+              </div>
+              <button type="button" class="pin" data-i="1" style="left:59%;top:55.6%" aria-expanded="false" aria-controls="pin-card" aria-label="1. Bobina magnética">1</button>
+              <button type="button" class="pin" data-i="2" style="left:28.5%;top:66.5%" aria-expanded="false" aria-controls="pin-card" aria-label="2. Indicador LED">2</button>
+              <button type="button" class="pin" data-i="3" style="left:39.5%;top:70.5%" aria-expanded="false" aria-controls="pin-card" aria-label="3. Monograma MSP">3</button>
+              <button type="button" class="pin" data-i="4" style="left:80%;top:43%" aria-expanded="false" aria-controls="pin-card" aria-label="4. Cable USB-C integrado">4</button>
+              <button type="button" class="pin" data-i="5" style="left:53.2%;top:85%" aria-expanded="false" aria-controls="pin-card" aria-label="5. Puerto USB-C">5</button>
+              <button type="button" class="pin" data-i="6" style="left:65%;top:78.4%" aria-expanded="false" aria-controls="pin-card" aria-label="6. Conector Lightning">6</button>
+              <svg class="leader" id="leader" aria-hidden="true"><line x1="0" y1="0" x2="0" y2="0"/><circle r="3.5" cx="0" cy="0"/></svg>
+              <div class="pin-card" id="pin-card" role="dialog" aria-live="polite" aria-label="Detalle del componente">
+                <button type="button" class="pc-x" aria-label="Cerrar">&times;</button>
+                <div class="pc-n"></div>
+                <div class="pc-t"></div>
+                <div class="pc-d"></div>
+              </div>
             </div>
+            <p class="anatomia-hint">Toca un punto para ver qué es cada parte.</p>
           </div>
           <div class="anatomia-list">
-            <div class="anatomy-row"><span class="n">1</span><div><div class="t">Bobina magnética</div><div class="d">Carga inalámbrica de 5 a 15 W, sin cables.</div></div></div>
-            <div class="anatomy-row"><span class="n">2</span><div><div class="t">Indicador LED</div><div class="d">Muestra el nivel de batería de un vistazo.</div></div></div>
-            <div class="anatomy-row"><span class="n">3</span><div><div class="t">Monograma MSP</div><div class="d">Grabado sobre el cuerpo, la firma de la marca.</div></div></div>
-            <div class="anatomy-row"><span class="n">4</span><div><div class="t">Cable USB-C integrado</div><div class="d">Sale del lateral cuando lo necesitas y funciona como correa para llevarlo en la mano.</div></div></div>
-            <div class="anatomy-row"><span class="n">5</span><div><div class="t">Puerto USB-C</div><div class="d">Para cargar el Power Bank y para carga rápida.</div></div></div>
-            <div class="anatomy-row"><span class="n">6</span><div><div class="t">Conector Lightning</div><div class="d">El segundo cable integrado, para dispositivos Apple.</div></div></div>
+            <div class="anatomy-row" role="button" tabindex="0"><span class="n">1</span><div><div class="t">Bobina magnética</div><div class="d">Carga inalámbrica de 5 a 15 W, sin cables.</div></div></div>
+            <div class="anatomy-row" role="button" tabindex="0"><span class="n">2</span><div><div class="t">Indicador LED</div><div class="d">Muestra el nivel de batería de un vistazo.</div></div></div>
+            <div class="anatomy-row" role="button" tabindex="0"><span class="n">3</span><div><div class="t">Monograma MSP</div><div class="d">Grabado sobre el cuerpo, la firma de la marca.</div></div></div>
+            <div class="anatomy-row" role="button" tabindex="0"><span class="n">4</span><div><div class="t">Cable USB-C integrado</div><div class="d">Sale del lateral cuando lo necesitas y funciona como correa para llevarlo en la mano.</div></div></div>
+            <div class="anatomy-row" role="button" tabindex="0"><span class="n">5</span><div><div class="t">Puerto USB-C</div><div class="d">Para cargar el Power Bank y para carga rápida.</div></div></div>
+            <div class="anatomy-row" role="button" tabindex="0"><span class="n">6</span><div><div class="t">Conector Lightning</div><div class="d">El segundo cable integrado, para dispositivos Apple.</div></div></div>
           </div>
         </div>
       </section>
@@ -682,7 +734,7 @@
               </div>
               <div class="color-buy">
                 <div class="v">$250.000</div>
-                <a href="#pedidos" class="btn ch-s" style="background:#6E001B;color:#fff">Pedir blanco</a>
+                <a href="#pedidos" class="btn ch-s" style="background:#6E001B;color:#fff">Pedir marfil</a>
               </div>
             </div>
           </div>
@@ -691,8 +743,22 @@
 
       <section class="regalo ch-l" aria-label="Caja de regalo">
         <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="regalo-watermark" loading="lazy" decoding="async" />
-        <div class="regalo-media ch-l">
-          <img src="assets/pb-caja.jpg" alt="Power Bank blanco dentro de su caja de regalo Maison Pastrana" loading="lazy" decoding="async" width="900" height="1200" />
+        <div class="regalo-deckwrap">
+          <div class="deck" id="deck" tabindex="0" role="group" aria-roledescription="mazo de tarjetas" aria-label="Fotos de la caja de regalo, desliza o usa las flechas">
+            <div class="deck-card ch-s" data-depth="0" data-t="Estuche y tapa" data-d="La tapa roja con el monograma en dorado, junto al estuche negro."><img src="assets/caja-1.jpg" alt="Power Bank negro en su estuche abierto, con la tapa roja a un lado" loading="lazy" decoding="async" width="900" height="1200" /></div>
+            <div class="deck-card ch-s" data-depth="1" data-t="Vista frontal" data-d="El mensaje dorado en la tapa y el Power Bank asentado en su espuma."><img src="assets/caja-2.jpg" alt="Vista frontal del estuche abierto con el Power Bank negro" loading="lazy" decoding="async" width="900" height="1200" /></div>
+            <div class="deck-card ch-s" data-depth="2" data-t="Versión marfil" data-d="El Power Bank marfil dentro del estuche, con la correa a la vista."><img src="assets/caja-3.jpg" alt="Power Bank marfil dentro del estuche de regalo" loading="lazy" decoding="async" width="900" height="1200" /></div>
+            <div class="deck-card ch-s" data-depth="3" data-t="En ángulo" data-d="Una mirada desde arriba a la frase y al Power Bank negro grabado."><img src="assets/caja-4.jpg" alt="Estuche abierto visto en ángulo con el Power Bank negro" loading="lazy" decoding="async" width="900" height="1200" /></div>
+          </div>
+          <div class="deck-ui">
+            <div class="deck-cap" aria-live="polite"><div class="dc-t"></div><div class="dc-d"></div></div>
+            <div class="deck-btns">
+              <span class="deck-count"></span>
+              <button type="button" class="deck-btn" id="deck-prev" aria-label="Tarjeta anterior">&larr;</button>
+              <button type="button" class="deck-btn" id="deck-next" aria-label="Tarjeta siguiente">&rarr;</button>
+            </div>
+          </div>
+          <p class="deck-hint">Toca o desliza la tarjeta para ver otra perspectiva.</p>
         </div>
         <div class="regalo-text">
           <span class="sec">05/</span>
