@@ -429,6 +429,9 @@
     .deck-card[data-depth="2"] { transform: translate(-12px, 12px) rotate(-4deg); z-index: 2; }
     .deck-card[data-depth="3"] { transform: translate(6px, 16px) rotate(6deg); z-index: 1; }
     .deck-card.no-tr { transition: none; }
+    .deck-card.lift { transition: transform .3s ease-out; }
+    .deck-card.sweep { transition: transform .62s cubic-bezier(.3, .7, .2, 1); z-index: 6 !important; box-shadow: 0 30px 60px rgba(0, 0, 0, .55); }
+    .deck-card.sweep-back { transition: transform .65s cubic-bezier(.2, .8, .2, 1); }
     .deck-card.dragging { transition: none; cursor: grabbing; }
     .deck-card:focus-visible { outline: 2px solid #E6A0B0; outline-offset: 4px; }
     .deck-tag {
@@ -856,7 +859,7 @@
               </div>
               <div class="color-buy">
                 <div class="v">$250.000</div>
-                <a href="#pedidos" class="btn ch-s" style="background:#6E001B;color:#fff">Pedir marfil</a>
+                <a href="#pedidos" class="btn ch-s" style="background:#6E001B;color:#fff">Pedir blanco</a>
               </div>
             </div>
           </div>
@@ -938,7 +941,8 @@
     </footer>
 
   </div>
-<script>
+
+  <script>
   (function () {
     /* ---------- Anatomía: puntos interactivos ---------- */
     var stage = document.getElementById('anatomia-stage');
@@ -954,42 +958,70 @@
       var active = null;
 
       var leader = document.getElementById('leader');
+      var lnS = document.getElementById('ln-s'), ln = document.getElementById('ln');
+      var ar = document.getElementById('ar'), nd = document.getElementById('nd');
+
       function place(pin) {
-        var sw = stage.clientWidth;
-        var px = pin.offsetLeft, py = pin.offsetTop;
+        var sw = stage.clientWidth, sh = stage.clientHeight;
+        var px = pin.offsetLeft + pin.offsetWidth / 2, py = pin.offsetTop + pin.offsetHeight / 2;
         var cw = card.offsetWidth, ch = card.offsetHeight;
-        var left = 8, top = 8;
+        var left = px < sw * 0.5 ? 8 : sw - cw - 8;
+        var top = 8;
         card.style.left = left + 'px';
         card.style.top = top + 'px';
-        var ax = Math.min(Math.max(left + 20, px), left + cw - 20);
+        leader.setAttribute('width', sw); leader.setAttribute('height', sh);
+        leader.setAttribute('viewBox', '0 0 ' + sw + ' ' + sh);
+
+        var ax = Math.min(Math.max(left + 24, px), left + cw - 24);
         var ay = top + ch;
-        var dxl = px - ax, dyl = py - ay, len = Math.sqrt(dxl * dxl + dyl * dyl) || 1;
-        var ex = px - dxl / len * 19, ey = py - dyl / len * 19;   // se detiene en el borde del punto
-        var ln = leader.querySelector('line');
-        ln.setAttribute('x1', ax); ln.setAttribute('y1', ay);
-        ln.setAttribute('x2', ex); ln.setAttribute('y2', ey);
-        var c = leader.querySelector('circle');
-        c.setAttribute('cx', ax); c.setAttribute('cy', ay);
+        var dx = Math.abs(ax - px);
+        var ky = Math.max(ay + 14, py - dx);              // codo a 45° y luego vertical
+        var kx = ax;
+        // punto de partida: borde del pin sobre el primer tramo
+        var L1 = Math.sqrt((kx - px) * (kx - px) + (ky - py) * (ky - py));
+        var gap = 30, sx, sy, d;
+        if (L1 >= gap + 2) {                              // el tramo diagonal es suficientemente largo
+          var u1x = (kx - px) / L1, u1y = (ky - py) / L1;
+          sx = px + u1x * gap; sy = py + u1y * gap;
+          d = 'M' + sx + ' ' + sy + ' L' + kx + ' ' + ky + ' L' + ax + ' ' + ay;
+        } else {                                          // casi vertical: se parte desde el borde del pin
+          var L2 = Math.sqrt((ax - kx) * (ax - kx) + (ay - ky) * (ay - ky)) || 1;
+          var u2x = (ax - kx) / L2, u2y = (ay - ky) / L2, rest = gap - L1;
+          sx = kx + u2x * rest; sy = ky + u2y * rest;
+          d = 'M' + sx + ' ' + sy + ' L' + ax + ' ' + ay;
+        }
+        ln.setAttribute('d', d); lnS.setAttribute('d', d);
+        // flecha apuntando al pin, alineada con el inicio de la línea
+        var wx = sx - px, wy = sy - py, wl = Math.sqrt(wx * wx + wy * wy) || 1;
+        var ux = wx / wl, uy = wy / wl;
+        var tipx = px + ux * 19, tipy = py + uy * 19;
+        var bx = tipx + ux * 13, by = tipy + uy * 13, nx = -uy * 6.5, ny = ux * 6.5;
+        ar.setAttribute('points', tipx + ',' + tipy + ' ' + (bx + nx) + ',' + (by + ny) + ' ' + (bx - nx) + ',' + (by - ny));
+        nd.setAttribute('x', ax - 4); nd.setAttribute('y', ay - 4);
       }
 
-      function open(i, focusCard) {
+      function show(i) {
         var pin = pins[i - 1];
-        active = i;
-        pins.forEach(function (p) { p.setAttribute('aria-expanded', p === pin ? 'true' : 'false'); });
-        rows.forEach(function (r, k) { r.classList.toggle('is-active', k === i - 1); });
-        list.classList.add('has-active');
-        card.querySelector('.pc-n').textContent = String(i);
+        card.classList.remove('is-open'); leader.classList.remove('is-open');
+        card.querySelector('.pc-n').textContent = 'Nº ' + String(i).padStart(2, '0');
         card.querySelector('.pc-t').textContent = data[i - 1].t;
         card.querySelector('.pc-d').textContent = data[i - 1].d;
         place(pin);
-        card.classList.add('is-open');
-        leader.classList.add('is-open');
+        void card.offsetWidth;                                 // reinicia las animaciones
+        card.classList.add('is-open'); leader.classList.add('is-open');
+      }
+
+      function open(i, focusCard) {
+        active = i;
+        pins.forEach(function (p, k) { p.setAttribute('aria-expanded', k === i - 1 ? 'true' : 'false'); });
+        rows.forEach(function (r, k) { r.classList.toggle('is-active', k === i - 1); });
+        list.classList.add('has-active');
+        show(i);
         if (focusCard) { stage.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
       }
       function close() {
         active = null;
-        card.classList.remove('is-open');
-        leader.classList.remove('is-open');
+        card.classList.remove('is-open'); leader.classList.remove('is-open');
         pins.forEach(function (p) { p.setAttribute('aria-expanded', 'false'); });
         rows.forEach(function (r) { r.classList.remove('is-active'); });
         list.classList.remove('has-active');
@@ -1031,6 +1063,9 @@
       var capD = document.querySelector('.dc-d');
       var count = document.querySelector('.deck-count');
       var busy = false;
+      var side = 1;                         // 1 = derecha, -1 = izquierda (se alterna en cada cambio)
+      var paused = false, visible = true, timer = null;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       function render() {
         order.forEach(function (c, d) {
@@ -1045,21 +1080,37 @@
         count.textContent = (cards.indexOf(top) + 1) + ' / ' + n;
       }
 
+      var step = 0;                         // cuenta los cambios: 2 normales y el tercero es el especial
       function next(dir) {
         if (busy) return;
         busy = true;
         var top = order[0];
-        var d = dir || 1;
-        top.style.transform = 'translate(' + (d * 120) + '%, 20px) rotate(' + (d * 18) + 'deg)';
-        top.style.opacity = 0;
-        setTimeout(function () {
-          order.push(order.shift());
-          top.classList.add('no-tr');
-          render();
-          void top.offsetWidth;
-          top.classList.remove('no-tr');
-          busy = false;
-        }, 300);
+        var special = !!dir || (step % 3 === 2);
+        step++;
+        if (special) {
+          // animación especial: barrido amplio hacia un lado y regreso por detrás del mazo
+          var d = dir || side;
+          if (!dir) { side = -side; }          // el siguiente ciclo va al lado contrario
+          top.classList.add('sweep');
+          top.style.transform = 'translate(' + (d * 128) + '%, -7%) rotate(' + (d * 16) + 'deg) scale(1.04)';
+          setTimeout(function () {
+            order.push(order.shift());
+            top.classList.remove('sweep');
+            top.classList.add('sweep-back');
+            render();                           // vuelve al fondo del mazo con transición suave
+            setTimeout(function () { top.classList.remove('sweep-back'); busy = false; }, 650);
+          }, 620);
+        } else {
+          // cambio normal: la tarjeta se levanta un poco y se desliza al fondo del mazo
+          top.classList.add('lift');
+          top.style.transform = 'translate(-6%, -9%) rotate(-4deg)';
+          setTimeout(function () {
+            order.push(order.shift());
+            top.classList.remove('lift');
+            render();
+            setTimeout(function () { busy = false; }, 420);
+          }, 300);
+        }
       }
       function prev() {
         if (busy) return;
@@ -1075,10 +1126,10 @@
         setTimeout(function () { busy = false; }, 450);
       }
 
-      document.getElementById('deck-next').addEventListener('click', function () { next(1); });
+      document.getElementById('deck-next').addEventListener('click', function () { next(); });
       document.getElementById('deck-prev').addEventListener('click', prev);
       deck.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowRight') { e.preventDefault(); next(1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
         if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
       });
 
@@ -1101,17 +1152,25 @@
         if (!drag) return;
         var t = drag; drag = null;
         t.classList.remove('dragging');
-        if (!moved) { t.style.transform = ''; next(1); return; }
-        if (Math.abs(dx) > 70) { next(dx > 0 ? 1 : -1); } else { t.style.transform = ''; }
+        if (!moved) { t.style.transform = ''; next(); return; }
+        if (Math.abs(dx) > 70) { t.style.transform = ''; next(dx > 0 ? 1 : -1); } else { t.style.transform = ''; }
       }
       deck.addEventListener('pointerup', end);
       deck.addEventListener('pointercancel', end);
+
+      // cambio automático cada pocos segundos (se pausa al interactuar o salir de pantalla)
+      function tick() { if (!paused && visible && !busy && !document.hidden) { next(); } }
+      if (!reduce) { timer = setInterval(tick, 3000); }
+      ['mouseenter', 'focusin', 'touchstart'].forEach(function (ev) { deck.parentNode.addEventListener(ev, function () { paused = true; }, { passive: true }); });
+      ['mouseleave', 'focusout'].forEach(function (ev) { deck.parentNode.addEventListener(ev, function () { paused = false; }); });
+      deck.parentNode.addEventListener('touchend', function () { setTimeout(function () { paused = false; }, 4000); }, { passive: true });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }, { threshold: .3 }).observe(deck);
+      }
 
       render();
     }
   })();
   </script>
-
-  </div>
 </body>
 </html>
