@@ -1271,7 +1271,8 @@
 
       /* estado completo de la escena para (foto idx, instante lt) */
       function render() {
-        var lt = clock;
+        /* con movimiento reducido se muestra una foto fija (carga completa) y se cambia de forma cada 5 s */
+        var lt = reduce ? T.c1 : clock;
         if (shownIdx !== idx) showPhoto(idx);
         var m = MODES[idx], mag = m.key === 'mag';
 
@@ -1362,15 +1363,19 @@
       }
 
       /* ----- reloj maestro ----- */
-      var inView = !('IntersectionObserver' in window), hoverP = false, manualP = false, navigating = false, raf = 0, last = 0;
-      function running() { return !reduce && inView && !document.hidden && !hoverP && !manualP; }
+      /* La animación NUNCA se queda pegada: solo se detiene si la pestaña está oculta,
+         si la escena no se ve, o si el usuario la pausa a mano. El mouse no la congela. */
+      var inView = !('IntersectionObserver' in window), manualP = false, navigating = false, raf = 0, last = 0;
+      function running() { return inView && !document.hidden && !manualP; }
       function frame(now) {
         raf = requestAnimationFrame(frame);          // el reloj nunca se apaga: así nunca se queda pegado
         var dt = Math.min(now - last, 100); last = now;
         if (!running()) return;
         if (!navigating) {
-          clock += dt;
-          if (clock >= CYCLE) { clock -= CYCLE; idx = (idx + 1) % N; }
+          if (!reduce) {                       // con movimiento reducido el cambio de forma lo lleva su propio temporizador
+            clock += dt;
+            if (clock >= CYCLE) { clock -= CYCLE; idx = (idx + 1) % N; }
+          }
           render();
         }
       }
@@ -1414,10 +1419,7 @@
       });
       deck.addEventListener('pointercancel', function () { down = false; });
 
-      // con el mouse encima, todo se congela (se puede mirar con calma); al salir continúa donde iba
-      // (solo mouse: en táctil el "hover" no existe y dejaba la animación congelada)
-      deck.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') { hoverP = true; sync(); } });
-      deck.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { hoverP = false; sync(); } });
+      // con el mouse encima la animación sigue corriendo: antes se congelaba y parecía bloqueada
       document.addEventListener('visibilitychange', sync);
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (en) {
@@ -1433,7 +1435,12 @@
       if ('ResizeObserver' in window) { new ResizeObserver(fitScene).observe(deck); } else { window.addEventListener('resize', fitScene); }
 
       // la frase queda oculta hasta la primera carga completa; si se ve y la escena no corre, no la dejamos escondida
-      if (reduce) { titleReveal(); clock = 1000; }
+      if (reduce) {
+        titleReveal();
+        // con movimiento reducido la escena es fija, pero cambia de forma cada 5 s (así no parece bloqueada)
+        render();
+        setInterval(function () { if (running()) go(idx + 1); }, 5000);
+      }
       else if (ttl) {
         ttl.classList.add('is-armed');
         if ('IntersectionObserver' in window) {
