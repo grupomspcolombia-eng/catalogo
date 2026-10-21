@@ -954,44 +954,49 @@
       <section class="regalo ch-l" aria-label="Caja de regalo">
         <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="regalo-watermark" loading="lazy" decoding="async" />
         <div class="regalo-deckwrap">
-          <div class="deck ch-s" id="deck" tabindex="0" role="group" aria-roledescription="galería animada" aria-label="Fotos de la caja de regalo; usa las flechas para cambiar de foto">
-            <div class="momento" id="momento" data-state="idle" data-lvl="low" role="img" aria-label="Un teléfono muestra la foto del Power Bank; llega un mensaje importante y aparece el aviso de batería baja. La foto sale de la pantalla, se convierte en el Power Bank y carga el teléfono hasta el 100%">
-              <div class="mo-phone" aria-hidden="true">
-                <div class="mo-screen"></div>
-                <div class="mo-status"><span>8:12</span><span class="mo-bat"><i id="mo-fill"></i></span></div>
-                <div class="mo-alert"><span class="mo-ico"></span><div><b id="mo-ev">Propuesta</b><small id="mo-when">Hoy · 8:30 pm</small></div></div>
-                <div class="mo-ring">
-                  <svg viewBox="0 0 100 100"><circle class="trk" cx="50" cy="50" r="42"/><circle class="prg" id="mo-prg" cx="50" cy="50" r="42" pathLength="100"/></svg>
-                  <span class="mo-pct" id="mo-pct">3%</span>
+          <div class="deck" id="deck" tabindex="0" role="group" aria-roledescription="animación" aria-label="Animación: un teléfono con la batería baja se carga de cuatro formas distintas con el Power Bank (MagSafe, cable USB-C integrado, cable Lightning integrado y cable USB-C a USB-C). Toca para pasar a la siguiente.">
+            <div class="momento" id="momento" data-state="idle" data-mode="mag" data-lvl="low" role="img" aria-label="Un teléfono muestra la foto del Power Bank; llega un mensaje importante y aparece el aviso de batería baja. La foto sale de la pantalla, se convierte en el Power Bank y carga el teléfono por MagSafe, con el cable USB-C integrado, con el cable Lightning integrado o con un cable USB-C a USB-C.">
+              <div class="mo-rig">
+                <div class="mo-pb" aria-hidden="true">
+                  <span class="mo-led"></span>
+                  <span class="mo-lens"></span>
+                  <span class="mo-slot"></span>
+                  <span class="mo-port"></span>
+                  <img class="mo-msp" src="assets/mp-monograma-footer.png" alt="" />
                 </div>
-                <div class="mo-cap" id="mo-cap"></div>
-                <div class="mo-lowbat"><i></i><div><b>Batería baja</b><small>3% restante</small></div></div>
+                <svg class="mo-cable" viewBox="0 0 420 540" aria-hidden="true">
+                  <path id="cb-out" class="cb-out"/>
+                  <path id="cb" class="cb"/>
+                  <path id="cb-fx" class="cb-fx"/>
+          <g id="plug-a" style="display:none"><g class="p-usbc"><rect x="-6.8" y="0" width="13.6" height="19" rx="3.4" fill="#D5D9E0" stroke="#8D939E" stroke-width=".8"/><rect x="-4.3" y="1.6" width="8.6" height="3" rx="1.5" fill="#2B2E35"/><rect class="cb-collar" x="-8" y="19" width="16" height="12" rx="3.5"/></g></g>
+          <g id="plug-b" data-k="usbc">
+            <g class="p-usbc"><rect x="-6.8" y="0" width="13.6" height="19" rx="3.4" fill="#D5D9E0" stroke="#8D939E" stroke-width=".8"/><rect x="-4.3" y="1.6" width="8.6" height="3" rx="1.5" fill="#2B2E35"/><rect class="cb-collar" x="-8" y="19" width="16" height="12" rx="3.5"/></g>
+            <g class="p-lt"><rect x="-4.7" y="0" width="9.4" height="18" rx="1.8" fill="#D9DCE2" stroke="#8D939E" stroke-width=".8"/><rect x="-3.4" y="1.4" width="1.2" height="5" fill="#C79A2E"/><rect x="-1.5" y="1.4" width="1.2" height="5" fill="#C79A2E"/><rect x=".3" y="1.4" width="1.2" height="5" fill="#C79A2E"/><rect x="2.2" y="1.4" width="1.2" height="5" fill="#C79A2E"/><circle cx="-4.7" cy="12" r="1.3" fill="#6F7580"/><circle cx="4.7" cy="12" r="1.3" fill="#6F7580"/><rect class="cb-collar" x="-7.5" y="18" width="15" height="12" rx="3.5"/></g>
+          </g>
+                </svg>
+                <div class="mo-phone" aria-hidden="true">
+                  <div class="mo-screen"></div>
+                  <div class="mo-status"><span>8:12</span><span class="mo-bat"><i id="mo-fill"></i></span></div>
+                  <div class="mo-alert"><span class="mo-ico"></span><div><b id="mo-ev">Propuesta</b><small id="mo-when">Hoy · 8:30 pm</small></div></div>
+                  <div class="mo-ring">
+                    <svg viewBox="0 0 100 100"><circle class="trk" cx="50" cy="50" r="42"/><circle class="prg" id="mo-prg" cx="50" cy="50" r="42" pathLength="100"/></svg>
+                    <span class="mo-pct" id="mo-pct">3%</span>
+                  </div>
+                  <div class="mo-cap" id="mo-cap"></div>
+                  <div class="mo-lowbat"><i></i><div><b>Batería baja</b><small>3% restante</small></div></div>
+                </div>
+                <span class="mo-click" aria-hidden="true"></span>
+                <div class="mo-fly" aria-hidden="true">
+                  <img src="assets/pb-caja.jpg" alt="" decoding="async" width="900" height="1200" />
+                  <img src="assets/caja-1.jpg" alt="" loading="lazy" decoding="async" width="900" height="1200" />
+                  <img src="assets/caja-2.jpg" alt="" loading="lazy" decoding="async" width="900" height="1200" />
+                  <img src="assets/caja-3.jpg" alt="" loading="lazy" decoding="async" width="900" height="1200" />
+                </div>
               </div>
-              <div class="mo-pb" aria-hidden="true">
-                <span class="mo-led"></span>
-                <span class="mo-lens"></span>
-                <img class="mo-msp" src="assets/mp-monograma-footer.png" alt="" />
-              </div>
-              <span class="mo-click" aria-hidden="true"></span>
-              <div class="mo-fly" aria-hidden="true">
-              <img src="assets/pb-caja.jpg" alt="" data-t="Listo para regalar" data-d="Power Bank blanco dentro de su caja de regalo Maison Pastrana." decoding="async" width="900" height="1200" />
-              <img src="assets/caja-1.jpg" alt="" data-t="Estuche y tapa" data-d="La tapa roja con el monograma en dorado, junto al estuche negro." loading="lazy" decoding="async" width="900" height="1200" />
-              <img src="assets/caja-2.jpg" alt="" data-t="Vista frontal" data-d="El mensaje dorado en la tapa y el Power Bank asentado en su espuma." loading="lazy" decoding="async" width="900" height="1200" />
-              <img src="assets/caja-3.jpg" alt="" data-t="Versión marfil" data-d="El Power Bank marfil dentro del estuche, con la correa a la vista." loading="lazy" decoding="async" width="900" height="1200" />
-              <img src="assets/caja-4.jpg" alt="" data-t="En ángulo" data-d="Una mirada desde arriba a la frase y al Power Bank negro grabado." loading="lazy" decoding="async" width="900" height="1200" />
-              </div>
+              <div class="mo-label" aria-hidden="true"><b></b><span></span></div>
+              <div class="mo-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
             </div>
           </div>
-          <div class="deck-ui">
-            <div class="deck-cap" aria-live="off"><div class="dc-t"></div><div class="dc-d"></div></div>
-            <div class="deck-btns">
-              <span class="deck-count"></span>
-              <button type="button" class="deck-btn" id="deck-prev" aria-label="Foto anterior">&larr;</button>
-              <button type="button" class="deck-btn sm" id="deck-pause" aria-label="Pausar animación" aria-pressed="false">&#10073;&#10073;</button>
-              <button type="button" class="deck-btn" id="deck-next" aria-label="Foto siguiente">&rarr;</button>
-            </div>
-          </div>
-          <p class="deck-hint">Toca o desliza para cambiar de foto. Se pausa al pasar el mouse.</p>
         </div>
         <div class="regalo-text">
           <h2 class="regalo-title" id="regalo-title"><span class="w" style="--i:0">Para</span> <span class="w" style="--i:1">los</span> <span class="w" style="--i:2">momentos</span> <span class="w" style="--i:3">donde</span> <span class="w" style="--i:4">no</span> <span class="w" style="--i:5">puedas</span> <span class="w" style="--i:6">fallar</span></h2>
