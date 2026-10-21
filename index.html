@@ -413,33 +413,11 @@
 
     /* ===== Mazo de tarjetas (caja de regalo) ===== */
     .regalo-deckwrap { position: relative; flex: 1 1 360px; max-width: 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
-    .deck { position: relative; aspect-ratio: 3/4; margin: 8px 22px 34px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
-    .deck-card {
-      position: absolute; inset: 0;
-      background: #000; overflow: hidden;
-      border: 6px solid #fff;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, .45);
-      transform-origin: 50% 90%;
-      transition: transform .45s cubic-bezier(.2, .8, .2, 1), opacity .3s;
-      will-change: transform;
-    }
-    .deck-card img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; -webkit-user-drag: none; }
-    .deck-card[data-depth="0"] { transform: none; cursor: grab; z-index: 4; }
-    .deck-card[data-depth="1"] { transform: translate(12px, 8px) rotate(3.5deg); z-index: 3; }
-    .deck-card[data-depth="2"] { transform: translate(-12px, 12px) rotate(-4deg); z-index: 2; }
-    .deck-card[data-depth="3"] { transform: translate(6px, 16px) rotate(6deg); z-index: 1; }
-    .deck-card.no-tr { transition: none; }
-    .deck-card.lift { transition: transform .3s ease-out; }
-    .deck-card.sweep { transition: transform .62s cubic-bezier(.3, .7, .2, 1); z-index: 6 !important; box-shadow: 0 30px 60px rgba(0, 0, 0, .55); }
-    .deck-card.sweep-back { transition: transform .65s cubic-bezier(.2, .8, .2, 1); }
-    .deck-card.dragging { transition: none; cursor: grabbing; }
-    .deck-card:focus-visible { outline: 2px solid #E6A0B0; outline-offset: 4px; }
-    .deck-tag {
-      position: absolute; left: 0; bottom: 0; right: 0;
-      padding: 40px 18px 14px;
-      background: linear-gradient(to top, rgba(0, 0, 0, .75), transparent);
-      color: #fff; font-size: 13px; font-weight: 700; letter-spacing: .02em;
-    }
+    .deck { position: relative; aspect-ratio: 3/4; overflow: hidden; cursor: pointer; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+      background: radial-gradient(90% 70% at 30% 22%, #7A1630 0%, #3A000E 68%, #1C0007 100%); }
+    .deck:focus-visible { outline: 2px solid #E6A0B0; outline-offset: -4px; }
+    /* con el reloj detenido (mouse encima, pausa, fuera de pantalla) también se congelan las animaciones CSS */
+    .deck.is-paused .momento *, .deck.is-paused .momento *::after { animation-play-state: paused !important; }
     .deck-ui { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 18px; }
     .deck-cap { min-width: 0; }
     .deck-cap .dc-t { font-size: 17px; font-weight: 700; }
@@ -452,6 +430,8 @@
       font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
       transition: background .2s, color .2s;
     }
+    .deck-btn[hidden] { display: none; }
+    .deck-btn.sm { font-size: 11px; letter-spacing: -1px; }
     .deck-btn:hover { background: #fff; color: #000; }
     .deck-btn:focus-visible { outline: 2px solid #E6A0B0; outline-offset: 3px; }
     .deck-hint { font-size: 12px; color: rgba(255, 255, 255, .6); padding: 0 18px; margin: -8px 0 0; }
@@ -464,7 +444,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       .pin::before, .pin[aria-expanded="true"]::after { animation: none; }
-      .deck-card, .pin-card, .pin-card * , .leader * { transition: none !important; animation-duration: .01s !important; animation-delay: 0s !important; }
+      .pin-card, .pin-card * , .leader * { transition: none !important; animation-duration: .01s !important; animation-delay: 0s !important; }
     }
 
     .colores { margin-top: 36px; display: flex; flex-direction: column; gap: 24px; }
@@ -550,15 +530,19 @@
 
 
     /* ===== Momento: batería baja -> Power Bank -> frase en foil dorado ===== */
-    .momento { position: relative; width: 320px; max-width: 100%; height: 276px; margin: 4px 0 0; }
+    .momento { position: absolute; left: 0; top: 0; width: 300px; height: 400px; transform: scale(var(--ms, 1)); transform-origin: 0 0; transition: opacity .15s; }
+    /* la foto que sale del teléfono y viaja hasta convertirse en el Power Bank (la mueve el JS cuadro a cuadro) */
+    .mo-fly { position: absolute; left: 0; top: 0; z-index: 5; width: 64px; height: 85px; overflow: hidden; box-sizing: border-box; background: #000; border: 0 solid #fff; opacity: 0; pointer-events: none; box-shadow: 0 24px 50px rgba(0, 0, 0, .55); }
+    .mo-fly img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; -webkit-user-drag: none; }
+    .mo-fly img.on { opacity: 1; }
     .mo-phone {
-      position: absolute; left: 0; top: 6px; z-index: 2;
+      position: absolute; left: 13px; top: 69px; z-index: 2;
       width: 150px; height: 262px; padding: 12px 12px 14px;
       border-radius: 30px; border: 5px solid #1b1b1f;
       background: radial-gradient(120% 70% at 50% 0%, #2a2230 0%, #0b0b0e 70%);
       box-shadow: 0 20px 40px rgba(0, 0, 0, .5), inset 0 0 0 1px rgba(255, 255, 255, .08);
       display: flex; flex-direction: column; align-items: center; gap: 10px;
-      color: #fff;
+      color: #fff; transform-origin: 50% 50%; will-change: transform;
     }
     .mo-status { align-self: stretch; display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 700; padding: 0 4px; }
     .mo-bat { position: relative; width: 22px; height: 11px; border: 1.5px solid rgba(255, 255, 255, .7); border-radius: 3.5px; }
@@ -575,7 +559,28 @@
     .mo-ico::after { content: ""; position: absolute; left: 5px; right: 5px; top: 10px; height: 1.5px; background: #3A000E; }
     .mo-alert b { display: block; font-size: 11px; font-weight: 700; line-height: 1.15; }
     .mo-alert small { display: block; font-size: 9.5px; color: rgba(255, 255, 255, .7); margin-top: 1px; }
-    .momento:not([data-state="idle"]) .mo-alert { transform: none; opacity: 1; }
+    .mo-alert.show { transform: none; opacity: 1; }
+    /* aviso de batería baja, debajo del mensaje */
+    .mo-lowbat {
+      position: absolute; left: 12px; right: 12px; top: 84px; z-index: 4;
+      display: flex; gap: 8px; align-items: center; padding: 7px 8px; border-radius: 12px;
+      background: rgba(58, 8, 16, .94); box-shadow: 0 0 0 1px rgba(255, 77, 94, .55);
+      transform: translateY(-30%) scale(.94); opacity: 0;
+      transition: transform .45s cubic-bezier(.2, .9, .2, 1), opacity .25s;
+    }
+    .mo-lowbat.show { transform: none; opacity: 1; }
+    .mo-lowbat i { flex: 0 0 22px; height: 22px; border-radius: 6px; background: #FF4D5E; position: relative; }
+    .mo-lowbat i::before { content: ""; position: absolute; left: 4px; top: 7px; width: 12px; height: 7px; border: 1.5px solid #3A000E; border-radius: 2px; }
+    .mo-lowbat i::after { content: ""; position: absolute; left: 6px; top: 9px; width: 2.5px; height: 3px; background: #3A000E; }
+    .mo-lowbat b { display: block; font-size: 11px; font-weight: 700; line-height: 1.15; color: #FFB3BB; }
+    .mo-lowbat small { display: block; font-size: 9.5px; color: rgba(255, 255, 255, .7); margin-top: 1px; }
+    /* la foto vive en la pantalla del teléfono; el JS la saca de ahí como "flyer" */
+    .mo-screen { position: absolute; inset: 0; z-index: 1; border-radius: 25px; overflow: hidden; background: #000; opacity: 0; pointer-events: none; }
+    .mo-screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; }
+    .mo-screen img.on { opacity: 1; }
+    .mo-screen::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 64px; background: linear-gradient(to bottom, rgba(0, 0, 0, .55), transparent); }
+    .mo-status { position: relative; z-index: 4; }
+    .mo-alert { position: relative; z-index: 4; background: rgba(24, 20, 28, .88); }
     .mo-ring { position: relative; width: 98px; height: 98px; margin-top: 6px; }
     .mo-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
     .mo-ring circle { fill: none; stroke-width: 7; }
@@ -591,14 +596,12 @@
     @keyframes moShake { 0%, 86%, 100% { transform: none; } 90% { transform: translateX(-2px); } 94% { transform: translateX(2px); } 98% { transform: translateX(-1px); } }
 
     .mo-pb {
-      position: absolute; left: 124px; top: 96px; z-index: 1;
+      position: absolute; left: 137px; top: 159px; z-index: 1;
       width: 150px; height: 104px; border-radius: 28px;
       background: linear-gradient(145deg, #F6F1E7 0%, #D8D0C0 100%);
       box-shadow: 0 18px 34px rgba(0, 0, 0, .5), inset 0 -6px 12px rgba(0, 0, 0, .08);
       transform: translateX(190px) rotate(10deg); opacity: 0;
-      transition: transform .75s cubic-bezier(.2, .9, .2, 1), opacity .35s;
     }
-    .momento[data-state="dock"] .mo-pb, .momento[data-state="charging"] .mo-pb, .momento[data-state="full"] .mo-pb { transform: none; opacity: 1; }
     .mo-lens { position: absolute; right: 12px; top: 12px; width: 80px; height: 80px; border-radius: 50%; background: #ECE6D9; box-shadow: inset 0 0 0 3px #CFC6B3; display: flex; align-items: center; justify-content: center; }
     .mo-lens::before { content: ""; width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #3a3a40, #08080a 70%); box-shadow: 0 0 0 0 rgba(242, 200, 91, 0); transition: box-shadow .4s; }
     .momento[data-state="charging"] .mo-lens::before, .momento[data-state="full"] .mo-lens::before { box-shadow: 0 0 22px 4px rgba(242, 200, 91, .75); }
@@ -607,18 +610,9 @@
     .mo-led { position: absolute; left: 14px; top: 14px; width: 18px; height: 7px; border-radius: 4px; background: #B9B1A0; transition: background .3s, box-shadow .3s; }
     .momento[data-state="charging"] .mo-led, .momento[data-state="full"] .mo-led { background: #7FE3D6; box-shadow: 0 0 8px #7FE3D6; }
     .mo-msp { position: absolute; left: 16px; bottom: 12px; height: 38px; width: auto; opacity: .55; }
-    .mo-click { position: absolute; left: 112px; top: 130px; z-index: 3; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%; border: 2px solid #F2C85B; opacity: 0; pointer-events: none; }
-    .momento[data-state="dock"] .mo-click { animation: moClick .7s ease-out .55s both; }
+    .mo-click { position: absolute; left: 125px; top: 193px; z-index: 3; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%; border: 2px solid #F2C85B; opacity: 0; pointer-events: none; }
+    .momento[data-state="dock"] .mo-click { animation: moClick .35s ease-out both; }
     @keyframes moClick { from { transform: scale(.3); opacity: 1; } to { transform: scale(2.4); opacity: 0; } }
-    .mo-replay {
-      position: absolute; right: 0; bottom: 0; z-index: 3;
-      font: 600 12px 'Montserrat', system-ui, sans-serif; letter-spacing: .06em;
-      color: rgba(255, 255, 255, .75); background: transparent; border: 1px solid rgba(255, 255, 255, .35);
-      padding: 8px 14px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .3s, background .2s, color .2s;
-    }
-    .momento[data-state="full"] .mo-replay { opacity: 1; pointer-events: auto; }
-    .mo-replay:hover { background: #fff; color: #000; }
-    .mo-replay:focus-visible { outline: 2px solid #E6A0B0; outline-offset: 3px; }
 
     /* frase: se escribe palabra por palabra y luego pasa el destello de foil */
     .regalo-title .w { display: inline-block; }
@@ -638,7 +632,7 @@
     @keyframes moFoil { from { background-position: 100% 0; } to { background-position: 0% 0; } }
 
     @media (prefers-reduced-motion: reduce) {
-      .mo-pb, .mo-alert { transition: none; }
+      .mo-alert { transition: none; }
       .mo-ring, .mo-lens::after, .mo-click { animation: none !important; }
       .regalo-title .w { animation: none !important; clip-path: none !important; }
     }
@@ -960,42 +954,46 @@
       <section class="regalo ch-l" aria-label="Caja de regalo">
         <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="regalo-watermark" loading="lazy" decoding="async" />
         <div class="regalo-deckwrap">
-          <div class="deck" id="deck" tabindex="0" role="group" aria-roledescription="mazo de tarjetas" aria-label="Fotos de la caja de regalo, desliza o usa las flechas">
-<div class="deck-card ch-s" data-depth="0" data-t="Listo para regalar" data-d="Power Bank blanco dentro de su caja de regalo Maison Pastrana."><img src="assets/pb-caja.jpg" alt="Power Bank blanco dentro de su caja de regalo Maison Pastrana" decoding="async" width="900" height="1200" /></div>
-            <div class="deck-card ch-s" data-depth="1" data-t="Estuche y tapa" data-d="La tapa roja con el monograma en dorado, junto al estuche negro."><img src="assets/caja-1.jpg" alt="Power Bank negro en su estuche abierto, con la tapa roja a un lado" loading="lazy" decoding="async" width="900" height="1200" /></div>
-            <div class="deck-card ch-s" data-depth="2" data-t="Vista frontal" data-d="El mensaje dorado en la tapa y el Power Bank asentado en su espuma."><img src="assets/caja-2.jpg" alt="Vista frontal del estuche abierto con el Power Bank negro" loading="lazy" decoding="async" width="900" height="1200" /></div>
-            <div class="deck-card ch-s" data-depth="3" data-t="Versión marfil" data-d="El Power Bank marfil dentro del estuche, con la correa a la vista."><img src="assets/caja-3.jpg" alt="Power Bank marfil dentro del estuche de regalo" loading="lazy" decoding="async" width="900" height="1200" /></div>
-            <div class="deck-card ch-s" data-depth="4" data-t="En ángulo" data-d="Una mirada desde arriba a la frase y al Power Bank negro grabado."><img src="assets/caja-4.jpg" alt="Estuche abierto visto en ángulo con el Power Bank negro" loading="lazy" decoding="async" width="900" height="1200" /></div>
+          <div class="deck ch-s" id="deck" tabindex="0" role="group" aria-roledescription="galería animada" aria-label="Fotos de la caja de regalo; usa las flechas para cambiar de foto">
+            <div class="momento" id="momento" data-state="idle" data-lvl="low" role="img" aria-label="Un teléfono muestra la foto del Power Bank; llega un mensaje importante y aparece el aviso de batería baja. La foto sale de la pantalla, se convierte en el Power Bank y carga el teléfono hasta el 100%">
+              <div class="mo-phone" aria-hidden="true">
+                <div class="mo-screen"></div>
+                <div class="mo-status"><span>8:12</span><span class="mo-bat"><i id="mo-fill"></i></span></div>
+                <div class="mo-alert"><span class="mo-ico"></span><div><b id="mo-ev">Propuesta</b><small id="mo-when">Hoy · 8:30 pm</small></div></div>
+                <div class="mo-ring">
+                  <svg viewBox="0 0 100 100"><circle class="trk" cx="50" cy="50" r="42"/><circle class="prg" id="mo-prg" cx="50" cy="50" r="42" pathLength="100"/></svg>
+                  <span class="mo-pct" id="mo-pct">3%</span>
+                </div>
+                <div class="mo-cap" id="mo-cap"></div>
+                <div class="mo-lowbat"><i></i><div><b>Batería baja</b><small>3% restante</small></div></div>
+              </div>
+              <div class="mo-pb" aria-hidden="true">
+                <span class="mo-led"></span>
+                <span class="mo-lens"></span>
+                <img class="mo-msp" src="assets/mp-monograma-footer.png" alt="" />
+              </div>
+              <span class="mo-click" aria-hidden="true"></span>
+              <div class="mo-fly" aria-hidden="true">
+              <img src="assets/pb-caja.jpg" alt="" data-t="Listo para regalar" data-d="Power Bank blanco dentro de su caja de regalo Maison Pastrana." decoding="async" width="900" height="1200" />
+              <img src="assets/caja-1.jpg" alt="" data-t="Estuche y tapa" data-d="La tapa roja con el monograma en dorado, junto al estuche negro." loading="lazy" decoding="async" width="900" height="1200" />
+              <img src="assets/caja-2.jpg" alt="" data-t="Vista frontal" data-d="El mensaje dorado en la tapa y el Power Bank asentado en su espuma." loading="lazy" decoding="async" width="900" height="1200" />
+              <img src="assets/caja-3.jpg" alt="" data-t="Versión marfil" data-d="El Power Bank marfil dentro del estuche, con la correa a la vista." loading="lazy" decoding="async" width="900" height="1200" />
+              <img src="assets/caja-4.jpg" alt="" data-t="En ángulo" data-d="Una mirada desde arriba a la frase y al Power Bank negro grabado." loading="lazy" decoding="async" width="900" height="1200" />
+              </div>
+            </div>
           </div>
           <div class="deck-ui">
-            <div class="deck-cap" aria-live="polite"><div class="dc-t"></div><div class="dc-d"></div></div>
+            <div class="deck-cap" aria-live="off"><div class="dc-t"></div><div class="dc-d"></div></div>
             <div class="deck-btns">
               <span class="deck-count"></span>
-              <button type="button" class="deck-btn" id="deck-prev" aria-label="Tarjeta anterior">&larr;</button>
-              <button type="button" class="deck-btn" id="deck-next" aria-label="Tarjeta siguiente">&rarr;</button>
+              <button type="button" class="deck-btn" id="deck-prev" aria-label="Foto anterior">&larr;</button>
+              <button type="button" class="deck-btn sm" id="deck-pause" aria-label="Pausar animación" aria-pressed="false">&#10073;&#10073;</button>
+              <button type="button" class="deck-btn" id="deck-next" aria-label="Foto siguiente">&rarr;</button>
             </div>
           </div>
-          <p class="deck-hint">Toca o desliza la tarjeta para ver otra perspectiva.</p>
+          <p class="deck-hint">Toca o desliza para cambiar de foto. Se pausa al pasar el mouse.</p>
         </div>
         <div class="regalo-text">
-          <div class="momento" id="momento" data-state="idle" data-lvl="low" role="img" aria-label="Un teléfono con 3% de batería recibe una alerta de un momento importante; al acoplar el Power Bank la carga sube hasta el 100%">
-            <div class="mo-phone" aria-hidden="true">
-              <div class="mo-status"><span>8:12</span><span class="mo-bat"><i id="mo-fill"></i></span></div>
-              <div class="mo-alert"><span class="mo-ico"></span><div><b id="mo-ev">Propuesta</b><small id="mo-when">Hoy · 8:30 pm</small></div></div>
-              <div class="mo-ring">
-                <svg viewBox="0 0 100 100"><circle class="trk" cx="50" cy="50" r="42"/><circle class="prg" id="mo-prg" cx="50" cy="50" r="42" pathLength="100"/></svg>
-                <span class="mo-pct" id="mo-pct">3%</span>
-              </div>
-              <div class="mo-cap" id="mo-cap"></div>
-            </div>
-            <div class="mo-pb" aria-hidden="true">
-              <span class="mo-led"></span>
-              <span class="mo-lens"></span>
-              <img class="mo-msp" src="assets/mp-monograma-footer.png" alt="" />
-            </div>
-            <span class="mo-click" aria-hidden="true"></span>
-            <button type="button" class="mo-replay" id="mo-replay">Ver otro momento</button>
-          </div>
           <h2 class="regalo-title" id="regalo-title"><span class="w" style="--i:0">Para</span> <span class="w" style="--i:1">los</span> <span class="w" style="--i:2">momentos</span> <span class="w" style="--i:3">donde</span> <span class="w" style="--i:4">no</span> <span class="w" style="--i:5">puedas</span> <span class="w" style="--i:6">fallar</span></h2>
           <p class="regalo-desc">Cada Power Bank llega en una caja de regalo con el monograma en dorado, lista para entregar.</p>
           <a href="#pedidos" class="btn ch-s" style="background:#fff;color:#000">Hacer pedido</a>
@@ -1160,189 +1158,231 @@
     }
 
 
-    /* ---------- Momento: batería baja -> Power Bank -> frase ---------- */
-    var mo = document.getElementById('momento');
-    if (mo) {
+    /* ---------- Caja de regalo: la foto sale del teléfono, se vuelve Power Bank y lo carga ----------
+       Todo cuelga de UN solo reloj (clock). Cada foto es un ciclo de CYCLE ms y el estado visual se calcula
+       como función pura de (foto, tiempo): así pausar, saltar de foto o salir de pantalla nunca descuadra nada. */
+    var deck = document.getElementById('deck');
+    if (deck) {
+      var mo = document.getElementById('momento');
+      var fly = mo.querySelector('.mo-fly'), pb = mo.querySelector('.mo-pb');
+      var imgs = Array.prototype.slice.call(fly.querySelectorAll('img'));
+      var N = imgs.length;
+      var phone = mo.querySelector('.mo-phone'), screen = mo.querySelector('.mo-screen');
+      var alertEl = mo.querySelector('.mo-alert'), lowEl = mo.querySelector('.mo-lowbat');
+      var simgs = imgs.map(function (im) {  // la misma foto vive también en la pantalla del teléfono
+        var c = im.cloneNode(); c.removeAttribute('data-t'); c.removeAttribute('data-d'); c.className = ''; screen.appendChild(c); return c;
+      });
+      var capT = document.querySelector('.dc-t'), capD = document.querySelector('.dc-d'), capBox = document.querySelector('.deck-cap');
+      var count = document.querySelector('.deck-count');
       var ttl = document.getElementById('regalo-title');
       var pctEl = document.getElementById('mo-pct'), prg = document.getElementById('mo-prg'), fill = document.getElementById('mo-fill');
       var capEl = document.getElementById('mo-cap'), evEl = document.getElementById('mo-ev'), whenEl = document.getElementById('mo-when');
-      var moments = [['Propuesta', 'Hoy · 8:30 pm'], ['Entrevista', 'Mañana · 9:00 am'], ['Vuelo', 'Hoy · 6:45 am'], ['Brindis', 'Hoy · 11:59 pm']];
-      var mIdx = 0, runId = 0, timers = [], played = false;
-      var reduceMo = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var pauseBtn = document.getElementById('deck-pause');
+      var moments = [['Propuesta', 'Hoy · 8:30 pm'], ['Entrevista', 'Mañana · 9 am'], ['Vuelo', 'Hoy · 6:45 am'], ['Brindis', 'Hoy · 11:59 pm'], ['Aniversario', 'Hoy · 9:00 pm']];
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var words = ttl ? ttl.querySelectorAll('.w').length : 0;
+
+      /* línea de tiempo de un ciclo (ms): foto en el teléfono -> mensaje -> batería baja -> la foto sale y se vuelve Power Bank -> carga -> llega la siguiente */
+      var T = { arr: 500, d0: 600, msg: 1500, low: 2300, out: 2900, pose1: 3600, pop: 3450, hold: 3900, m1: 4500, d1: 4800, c1: 6200, f1: 6700, x1: 7300 };
+      var CYCLE = T.x1;
+      /* geometría en el lienzo de diseño 300x400: pantalla del teléfono grande -> foto entera -> cuerpo del Power Bank */
+      var GS = { l: 62.5, t: 42.5, w: 175, h: 315, r: 31, b: 0, rot: 0 };
+      var G1 = { l: 43, t: 57, w: 214, h: 285, r: 6, b: 5, rot: -3 };
+      var G2 = { l: 137, t: 159, w: 150, h: 104, r: 28, b: 0, rot: 0 };
+      var HERO_TX = 62, HERO_S = 1.25;      // el teléfono arranca centrado y grande; para cargar se achica y se mueve a la izquierda
+
+      function lerp(a, b, k) { return a + (b - a) * k; }
+      function clamp(k) { return k < 0 ? 0 : (k > 1 ? 1 : k); }
+      function seg(lt, a, b) { return clamp((lt - a) / (b - a)); }
+      function inOut(k) { return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
+      function inOut2(k) { return k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; }
+      function outBack(k) { var c1 = 1.5, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); }
+      function outCubic(k) { return 1 - Math.pow(1 - k, 3); }
+      function inCubic(k) { return k * k * k; }
+      function mix(A, B, k) { var o = {}; for (var p in A) { o[p] = lerp(A[p], B[p], k); } return o; }
+
+      var idx = 0, clock = 0, shownIdx = -1, lastPct = -1, lastState = '', lastCap = '', titleDone = false, msgOn = null, lowOn = null;
 
       function setPct(v) {
-        pctEl.textContent = Math.round(v) + '%';
-        prg.style.strokeDashoffset = 100 - v;
-        fill.style.width = v + '%';
-        mo.setAttribute('data-lvl', v < 20 ? 'low' : (v < 60 ? 'mid' : 'hi'));
+        var r = Math.round(v);
+        if (r === lastPct) return;
+        lastPct = r;
+        pctEl.textContent = r + '%';
+        prg.style.strokeDashoffset = 100 - r;
+        fill.style.width = r + '%';
+        mo.setAttribute('data-lvl', r < 20 ? 'low' : (r < 60 ? 'mid' : 'hi'));
       }
-      function clearTimers() { timers.forEach(clearTimeout); timers = []; }
-      function reset() {
-        clearTimers();
-        mo.setAttribute('data-state', 'idle');
-        setPct(3);
-        capEl.textContent = '';
-        ttl.classList.remove('is-written', 'is-foil');
-        ttl.classList.add('is-armed');
-      }
-      function finish() {
-        mo.setAttribute('data-state', 'full');
-        setPct(100);
-        capEl.textContent = 'Carga completa';
+      function titleReveal() {              // la frase se escribe una sola vez, la primera vez que el teléfono llega al 100%
+        if (titleDone || !ttl) return;
+        titleDone = true;
         ttl.classList.remove('is-armed');
-        ttl.classList.add('is-foil');
+        ttl.classList.add('is-written');
+        setTimeout(function () { ttl.classList.add('is-foil'); }, words * 160 + 650);
       }
-      function play() {
-        reset();
-        var id = ++runId, m = moments[mIdx % moments.length];
+      function showPhoto(i) {
+        imgs.forEach(function (im, k) { im.classList.toggle('on', k === i); simgs[k].classList.toggle('on', k === i); });
+        var m = moments[i % moments.length];
         evEl.textContent = m[0]; whenEl.textContent = m[1];
-        function at(ms, fn) { timers.push(setTimeout(function () { if (id === runId) fn(); }, ms)); }
-        var words = ttl.querySelectorAll('.w').length;
-        at(250, function () { mo.setAttribute('data-state', 'low'); capEl.textContent = 'Batería baja'; });
-        at(1700, function () { mo.setAttribute('data-state', 'dock'); capEl.textContent = 'Acoplando…'; });
-        at(2500, function () {
-          mo.setAttribute('data-state', 'charging'); capEl.textContent = 'Cargando';
-          var t0 = performance.now(), dur = 2000;
-          (function step(now) {
-            if (id !== runId) return;
-            var k = Math.min(1, (now - t0) / dur), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-            setPct(3 + 97 * e);
-            if (k < 1) { requestAnimationFrame(step); }
-          })(t0);
-        });
-        at(4600, function () { mo.setAttribute('data-state', 'full'); setPct(100); capEl.textContent = 'Carga completa'; });
-        at(4900, function () { ttl.classList.remove('is-armed'); ttl.classList.add('is-written'); });
-        at(4900 + words * 160 + 650, function () { ttl.classList.add('is-foil'); });
+        capT.textContent = imgs[i].getAttribute('data-t');
+        capD.textContent = imgs[i].getAttribute('data-d');
+        count.textContent = (i + 1) + ' / ' + N;
+        shownIdx = i;
       }
 
-      document.getElementById('mo-replay').addEventListener('click', function () { mIdx++; play(); });
-
-      if (reduceMo || !('IntersectionObserver' in window)) {
-        finish();
-      } else {
-        reset();
-        new IntersectionObserver(function (en, ob) {
-          if (en[0].isIntersecting && !played) { played = true; play(); ob.disconnect(); }
-        }, { threshold: .55 }).observe(mo);
-      }
-    }
-
-    /* ---------- Caja de regalo: mazo de tarjetas ---------- */
-    var deck = document.getElementById('deck');
-    if (deck) {
-      var cards = Array.prototype.slice.call(deck.querySelectorAll('.deck-card'));
-      var n = cards.length;
-      var order = cards.slice();           // order[0] es la tarjeta de arriba
-      var capT = document.querySelector('.dc-t');
-      var capD = document.querySelector('.dc-d');
-      var count = document.querySelector('.deck-count');
-      var busy = false;
-      var side = 1;                         // 1 = derecha, -1 = izquierda (se alterna en cada cambio)
-      var paused = false, visible = true, timer = null;
-      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
+      /* estado completo de la escena para (foto idx, instante lt) */
       function render() {
-        order.forEach(function (c, d) {
-          c.setAttribute('data-depth', Math.min(d, 3));
-          c.style.opacity = d > 3 ? 0 : 1;
-          c.style.transform = '';
-          c.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
-        });
-        var top = order[0];
-        capT.textContent = top.getAttribute('data-t');
-        capD.textContent = top.getAttribute('data-d');
-        count.textContent = (cards.indexOf(top) + 1) + ' / ' + n;
+        var lt = clock;
+        if (shownIdx !== idx) showPhoto(idx);
+
+        /* estado del teléfono */
+        var st, cap, pct;
+        if (lt < T.out) { st = 'idle'; cap = ''; }
+        else if (lt < T.m1) { st = 'low'; cap = 'Batería baja'; }
+        else if (lt < T.d1) { st = 'dock'; cap = 'Acoplando…'; }
+        else if (lt < T.c1) { st = 'charging'; cap = 'Cargando'; }
+        else { st = 'full'; cap = 'Carga completa'; }
+        if (st !== lastState) { mo.setAttribute('data-state', st); lastState = st; }
+        if (cap !== lastCap) { capEl.textContent = cap; lastCap = cap; }
+
+        if (lt < T.d0) pct = 100;
+        else if (lt < T.low) pct = 100 - 97 * inCubic(seg(lt, T.d0, T.low));   // la batería se va gastando mientras se mira la foto
+        else if (lt < T.d1) pct = 3;
+        else if (lt < T.c1) pct = 3 + 97 * inOut2(seg(lt, T.d1, T.c1));
+        else pct = 100;
+        setPct(pct);
+        if (lt >= T.c1 && lt < T.f1) titleReveal();
+
+        /* llega el mensaje, luego el aviso de batería baja */
+        var mOn = lt >= T.msg && lt < T.out, lOn = lt >= T.low && lt < T.out;
+        if (mOn !== msgOn) { alertEl.classList.toggle('show', mOn); msgOn = mOn; }
+        if (lOn !== lowOn) { lowEl.classList.toggle('show', lOn); lowOn = lOn; }
+
+        /* postura del teléfono: grande y centrado mostrando la foto; chico a la izquierda mientras carga */
+        var q = lt < T.out ? 0 : (lt < T.pose1 ? inOut(seg(lt, T.out, T.pose1)) : (lt < T.f1 ? 1 : 1 - inOut(seg(lt, T.f1, T.x1))));
+        phone.style.transform = 'translate(' + (HERO_TX * (1 - q)).toFixed(2) + 'px,0) scale(' + (HERO_S - (HERO_S - 1) * q).toFixed(4) + ')';
+
+        /* la foto en la pantalla (llega con un pequeño zoom) */
+        var so = lt < T.arr ? outCubic(seg(lt, 0, T.arr)) : (lt < T.out ? 1 : 0);
+        screen.style.opacity = so.toFixed(3);
+        simgs[idx].style.transform = 'scale(' + (1 + .12 * (1 - outCubic(seg(lt, 0, T.arr)))).toFixed(4) + ')';
+
+        /* la foto sale del teléfono, se queda a la vista y se convierte en el cuerpo del Power Bank */
+        var g, fo;
+        if (lt < T.out) { g = GS; fo = 0; }
+        else if (lt < T.pop) { g = mix(GS, G1, outBack(seg(lt, T.out, T.pop))); fo = 1; }
+        else if (lt < T.hold) { g = mix(G1, G1, 0); g.rot = G1.rot + 1.2 * Math.sin(seg(lt, T.pop, T.hold) * Math.PI); fo = 1; }
+        else { g = mix(G1, G2, inOut(seg(lt, T.hold, T.m1))); fo = 1 - seg(lt, 4400, 4650); }
+        fly.style.cssText = 'left:' + g.l.toFixed(1) + 'px;top:' + g.t.toFixed(1) + 'px;width:' + g.w.toFixed(1) + 'px;height:' + g.h.toFixed(1) +
+          'px;border-radius:' + Math.max(0, g.r).toFixed(1) + 'px;border-width:' + Math.max(0, g.b).toFixed(1) + 'px;opacity:' + fo.toFixed(3) +
+          ';transform:rotate(' + g.rot.toFixed(2) + 'deg)';
+
+        /* el Power Bank aparece justo debajo de la foto (fundido cruzado) y al final se va */
+        var po = seg(lt, 4300, 4550), px = 0, pr = 0;
+        if (lt >= T.f1) { var x = seg(lt, T.f1, T.f1 + 400); px = 190 * inCubic(x); pr = 10 * x; po = 1 - x; }
+        pb.style.opacity = po.toFixed(3);
+        pb.style.transform = 'translateX(' + px.toFixed(1) + 'px) rotate(' + pr.toFixed(2) + 'deg)';
       }
 
-      var step = 0;                         // cuenta los cambios: 2 normales y el tercero es el especial
-      function next(dir) {
-        if (busy) return;
-        busy = true;
-        var top = order[0];
-        var special = !!dir || (step % 3 === 2);
-        step++;
-        if (special) {
-          // animación especial: barrido amplio hacia un lado y regreso por detrás del mazo
-          var d = dir || side;
-          if (!dir) { side = -side; }          // el siguiente ciclo va al lado contrario
-          top.classList.add('sweep');
-          top.style.transform = 'translate(' + (d * 128) + '%, -7%) rotate(' + (d * 16) + 'deg) scale(1.04)';
-          setTimeout(function () {
-            order.push(order.shift());
-            top.classList.remove('sweep');
-            top.classList.add('sweep-back');
-            render();                           // vuelve al fondo del mazo con transición suave
-            setTimeout(function () { top.classList.remove('sweep-back'); busy = false; }, 650);
-          }, 620);
-        } else {
-          // cambio normal: la tarjeta se levanta un poco y se desliza al fondo del mazo
-          top.classList.add('lift');
-          top.style.transform = 'translate(-6%, -9%) rotate(-4deg)';
-          setTimeout(function () {
-            order.push(order.shift());
-            top.classList.remove('lift');
-            render();
-            setTimeout(function () { busy = false; }, 420);
-          }, 300);
+      /* ----- reloj maestro ----- */
+      var inView = !('IntersectionObserver' in window), hoverP = false, manualP = false, navigating = false, raf = 0, last = 0, userNav = false;
+      function running() { return !reduce && inView && !document.hidden && !hoverP && !manualP; }
+      function frame(now) {
+        raf = 0;
+        if (!running()) return;
+        var dt = Math.min(now - last, 100); last = now;
+        if (!navigating) {
+          clock += dt;
+          if (clock >= CYCLE) { clock -= CYCLE; idx = (idx + 1) % N; }
+          render();
         }
+        raf = requestAnimationFrame(frame);
       }
-      function prev() {
-        if (busy) return;
-        busy = true;
-        var last = order[order.length - 1];
-        last.classList.add('no-tr');
-        last.style.transform = 'translate(-120%, 20px) rotate(-18deg)';
-        last.style.opacity = 0;
-        void last.offsetWidth;
-        last.classList.remove('no-tr');
-        order.unshift(order.pop());
-        render();
-        setTimeout(function () { busy = false; }, 450);
+      function sync() {
+        deck.classList.toggle('is-paused', !running());
+        if (!raf && running()) { last = performance.now(); raf = requestAnimationFrame(frame); }
       }
 
-      document.getElementById('deck-next').addEventListener('click', function () { next(); });
+      /* ----- navegación manual: un fundido corto y la siguiente foto arranca desde su inicio ----- */
+      function go(to) {
+        if (navigating) return;
+        if (!userNav) { userNav = true; capBox.setAttribute('aria-live', 'polite'); }
+        navigating = true;
+        mo.style.opacity = 0;
+        setTimeout(function () {
+          idx = (to + N) % N;
+          clock = reduce ? 1000 : 0;
+          render();
+          mo.style.opacity = 1;
+          navigating = false;
+          if (reduce) titleReveal();
+        }, 160);
+      }
+      function next() { go(idx + 1); }
+      function prev() { go(idx - 1); }
+
+      document.getElementById('deck-next').addEventListener('click', next);
       document.getElementById('deck-prev').addEventListener('click', prev);
       deck.addEventListener('keydown', function (e) {
         if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
         if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
       });
-
-      // arrastrar la tarjeta de arriba (o tocarla)
-      var sx = 0, sy = 0, dx = 0, drag = null, moved = false;
-      deck.addEventListener('pointerdown', function (e) {
-        var t = e.target.closest('.deck-card');
-        if (!t || t !== order[0] || busy) return;
-        drag = t; sx = e.clientX; sy = e.clientY; dx = 0; moved = false;
-        t.classList.add('dragging');
-        t.setPointerCapture(e.pointerId);
+      if (reduce) { pauseBtn.hidden = true; }
+      pauseBtn.addEventListener('click', function () {
+        manualP = !manualP;
+        pauseBtn.setAttribute('aria-pressed', manualP ? 'true' : 'false');
+        pauseBtn.setAttribute('aria-label', manualP ? 'Reanudar animación' : 'Pausar animación');
+        pauseBtn.innerHTML = manualP ? '&#9654;' : '&#10073;&#10073;';
+        sync();
       });
-      deck.addEventListener('pointermove', function (e) {
-        if (!drag) return;
-        dx = e.clientX - sx;
-        if (Math.abs(dx) > 6) moved = true;
-        drag.style.transform = 'translate(' + dx + 'px, ' + ((e.clientY - sy) * .2) + 'px) rotate(' + (dx / 18) + 'deg)';
-      });
-      function end() {
-        if (!drag) return;
-        var t = drag; drag = null;
-        t.classList.remove('dragging');
-        if (!moved) { t.style.transform = ''; next(); return; }
-        if (Math.abs(dx) > 70) { t.style.transform = ''; next(dx > 0 ? 1 : -1); } else { t.style.transform = ''; }
-      }
-      deck.addEventListener('pointerup', end);
-      deck.addEventListener('pointercancel', end);
 
-      // cambio automático cada pocos segundos (se pausa al interactuar o salir de pantalla)
-      function tick() { if (!paused && visible && !busy && !document.hidden) { next(); } }
-      if (!reduce) { timer = setInterval(tick, 3000); }
-      ['mouseenter', 'focusin', 'touchstart'].forEach(function (ev) { deck.parentNode.addEventListener(ev, function () { paused = true; }, { passive: true }); });
-      ['mouseleave', 'focusout'].forEach(function (ev) { deck.parentNode.addEventListener(ev, function () { paused = false; }); });
-      deck.parentNode.addEventListener('touchend', function () { setTimeout(function () { paused = false; }, 4000); }, { passive: true });
+      // tocar o deslizar la escena
+      var sx = 0, down = false;
+      deck.addEventListener('pointerdown', function (e) { down = true; sx = e.clientX; });
+      deck.addEventListener('pointerup', function (e) {
+        if (!down) return;
+        down = false;
+        var dx = e.clientX - sx;
+        if (Math.abs(dx) > 50) { if (dx < 0) { next(); } else { prev(); } }
+        else if (Math.abs(dx) < 8) { next(); }
+      });
+      deck.addEventListener('pointercancel', function () { down = false; });
+
+      // con el mouse encima, todo se congela (se puede mirar la foto con calma); al salir continúa donde iba
+      var wrap = deck.parentNode;
+      wrap.addEventListener('mouseenter', function () { hoverP = true; sync(); });
+      wrap.addEventListener('mouseleave', function () { hoverP = false; sync(); });
+      document.addEventListener('visibilitychange', sync);
       if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }, { threshold: .3 }).observe(deck);
+        new IntersectionObserver(function (en) {
+          var e = en[0];
+          inView = e.isIntersecting && (e.intersectionRatio >= .5 || e.intersectionRect.height >= window.innerHeight * .6);
+          sync();
+        }, { threshold: [0, .25, .5, .75, 1] }).observe(deck);
+      }
+
+      // el lienzo de diseño (300x400) se escala al ancho real del mazo
+      function fitScene() { mo.style.setProperty('--ms', (deck.clientWidth / 300).toFixed(4)); }
+      fitScene();
+      if ('ResizeObserver' in window) { new ResizeObserver(fitScene).observe(deck); } else { window.addEventListener('resize', fitScene); }
+
+      // la frase queda oculta hasta la primera carga completa; si se ve y la escena no corre, no la dejamos escondida
+      if (reduce) { titleReveal(); clock = 1000; }
+      else if (ttl) {
+        ttl.classList.add('is-armed');
+        if ('IntersectionObserver' in window) {
+          var tT = null;
+          var tio = new IntersectionObserver(function (en) {
+            clearTimeout(tT);
+            if (en[0].isIntersecting && !titleDone) {
+              tT = setTimeout(function () { if (!running()) { titleReveal(); tio.disconnect(); } }, 1500);
+            }
+          }, { threshold: .6 });
+          tio.observe(ttl);
+        }
       }
 
       render();
+      sync();
     }
   })();
   </script>
