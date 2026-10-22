@@ -534,7 +534,7 @@
         setOpen(false);
         requestAnimationFrame(function () {
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          if (history.replaceState) history.replaceState(null, '', '#' + id);
+          if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
         });
       } else {
         setOpen(false);                            // enlace a otra página o externo: cierra y deja navegar
@@ -581,4 +581,23 @@
       }, { threshold: [0, .15, .3, .5, .75, 1], rootMargin: '-100px 0px -55% 0px' });
       sections.forEach(function (s) { io.observe(s); });
     }
+  })();
+
+  /* enlaces internos (#esenciales, #pedidos…): desplazan a la sección sin dejar el "#nombre" en la barra de direcciones */
+  (function () {
+    function clean() {
+      if (location.hash && history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+    }
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented) return;
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var id = (a.getAttribute('href') || '').slice(1);
+      var t = id && document.getElementById(id);
+      if (!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ behavior: 'auto', block: 'start' });   // el scroll suave lo da el CSS (y respeta "reducir movimiento")
+      clean();
+    });
+    if (location.hash) setTimeout(clean, 400);                   // llegada desde otra página (/#esenciales)
   })();
