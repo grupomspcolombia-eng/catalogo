@@ -36,9 +36,9 @@
   <meta name="msapplication-TileColor" content="#6E001B" />
   <meta name="msapplication-TileImage" content="assets/favicon-192.png" />
   <link rel="preload" as="image" href="assets/pb-magnetico.jpg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,500;1,600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/PlayfairDisplay-normal-800.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/Montserrat-normal-400.woff2" crossorigin />
+  <link rel="stylesheet" href="assets/fonts.css?v=4" />
   <link rel="stylesheet" href="assets/site.css?v=4" />
   <script type="application/ld+json">
   {
@@ -221,7 +221,7 @@
     <main class="content">
 
       <section class="hero ch-l" aria-label="Power Bank 20.000 mAh Maison Pastrana">
-        <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="hero-watermark" width="699" height="1157" />
+        <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="hero-watermark" fetchpriority="high" width="699" height="1157" />
 
         <div class="hero-left">
           <div style="display:flex;flex-direction:column;gap:26px;align-items:flex-start">
@@ -466,7 +466,7 @@
                     <span class="mo-led"></span>
                     <span class="mo-lens"></span>
                     <span class="mo-slot mo-slot-l"></span><span class="mo-slot mo-slot-r"></span><span class="mo-port"></span>
-                    <img class="mo-msp" src="assets/mp-monograma-footer.png" alt="" width="625" height="1035" />
+                    <img loading="lazy" decoding="async" class="mo-msp" src="assets/mp-monograma-footer.png" alt="" width="625" height="1035" />
                   </div>
                 </div>
                 <svg class="mo-cable" viewBox="0 0 420 540" aria-hidden="true"></svg>
@@ -488,7 +488,7 @@
                 </div>
                 <span class="mo-click" aria-hidden="true"></span><span class="mo-click" aria-hidden="true"></span>
                 <div class="mo-fly" aria-hidden="true">
-                  <img src="assets/pb-caja.jpg" alt="" decoding="async" width="900" height="1200" />
+                  <img loading="lazy" decoding="async" src="assets/pb-caja.jpg" alt="" width="900" height="1200" />
                   <img src="assets/caja-1.jpg" alt="" loading="lazy" decoding="async" width="900" height="1200" />
                   <img src="assets/caja-2.jpg" alt="" loading="lazy" decoding="async" width="900" height="1200" />
                   <img src="assets/caja-3.jpg" alt="" loading="lazy" decoding="async" width="900" height="1200" />
