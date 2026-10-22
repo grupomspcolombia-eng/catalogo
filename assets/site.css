@@ -11,13 +11,13 @@
 
     * { box-sizing: border-box; }
 
-    :root { --display: 'Playfair Display', 'Didot', 'Bodoni MT', Georgia, serif; }
+    :root { --display: 'Playfair Display', 'Playfair Display Fallback', 'Didot', 'Bodoni MT', Georgia, serif; }
     h1, h2, h3 { font-variant-numeric: lining-nums; }
     html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
-      font-family: 'Montserrat', system-ui, sans-serif;
+      font-family: 'Montserrat', 'Montserrat Fallback', system-ui, sans-serif;
       background: #fff;
       color: #000;
       -webkit-font-smoothing: antialiased;
