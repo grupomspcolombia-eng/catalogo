@@ -1,4 +1,9 @@
 {
+  "redirects": [
+    { "source": "/power-bank-20000-mah", "destination": "/power-bank-20000-mah/", "permanent": true },
+    { "source": "/power-bank-para-iphone", "destination": "/power-bank-para-iphone/", "permanent": true },
+    { "source": "/precios-y-envios", "destination": "/precios-y-envios/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
