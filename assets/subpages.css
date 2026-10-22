@@ -32,11 +32,12 @@
   gap: 18px;
 }
 .sub-hero h1 .script {
-  font-family: 'Pinyon Script', 'Snell Roundhand', cursive;
-  font-weight: 400;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 500;
   text-transform: none;
-  letter-spacing: 0;
-  font-size: clamp(44px, 6.4vw, 92px);
+  letter-spacing: -.012em;
+  font-size: clamp(38px, 5.6vw, 82px);
   color: #E6A0B0;
 }
 .sub-hero .lead { color: rgba(255, 255, 255, .84); max-width: 760px; }
