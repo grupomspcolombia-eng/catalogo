@@ -807,3 +807,20 @@
       .faq-item > p { padding: 0 18px 18px; }
     }
 
+
+/* ---------- enlaces a páginas de contenido ---------- */
+.linkcards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.linkcard {
+  display: flex; flex-direction: column; gap: 6px;
+  background: #fff; border: 1px solid #E7E0E1; padding: 24px;
+  text-decoration: none; color: inherit;
+  transition: border-color .2s ease, transform .2s ease;
+}
+.linkcard:hover { border-color: #6E001B; transform: translateY(-2px); }
+.linkcard .lbl { color: #6E001B; }
+.linkcard .t { font-size: 19px; font-weight: 700; letter-spacing: -.02em; }
+.linkcard .d { font-size: 14px; color: #5E5256; line-height: 1.55; }
+
+.site-footer .footer-links { display: flex; flex-direction: column; gap: 6px; }
+.site-footer .footer-links a { font-size: 13px; color: #5E5256; text-decoration: none; letter-spacing: .02em; }
+.site-footer .footer-links a:hover { color: #6E001B; text-decoration: underline; }
