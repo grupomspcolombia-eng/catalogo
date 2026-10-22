@@ -157,13 +157,13 @@
       function ext(o) { var r = {}, k; for (k in T0) r[k] = T0[k]; for (k in o) r[k] = o[k]; return r; }
 
       /* lienzo de diseño 420x540. Postura: x,y = centro; s = escala; rz = inclinación; ry = giro */
-      var HERO = { x: 210, y: 262, s: 1.7, rz: 0, ry: 0 };
+      var HERO = { x: 210, y: 262, s: 1.7, rz: 0, ry: 0 }, TILT = -17;
       var BW = 150, BH = 104;
-      var SIDE_PH = { x: 118, y: 224, s: 1.4, rz: -6, ry: 0 }, SIDE_BK = { x: 320, y: 328, s: 1.0, r: 0 };
-      var PREP = { x: 150, y: 240, s: 1.45, rz: -5, ry: 0 }, SIDE = { x: 176, y: 240, s: 1.45, rz: -5, ry: -62 }, FINAL = { x: 172, y: 240, s: 1.45, rz: -7, ry: 0 };
+      var SIDE_PH = { x: 118, y: 224, s: 1.4, rz: -6, ry: -14 }, SIDE_BK = { x: 324, y: 334, s: 1.0, r: 0 };
+      var PREP = { x: 150, y: 240, s: 1.45, rz: -5, ry: -14 }, SIDE = { x: 176, y: 240, s: 1.45, rz: -5, ry: -62 }, FINAL = { x: 172, y: 240, s: 1.45, rz: -7, ry: -14 };
       var MODES = [
         { key: 'mag', t: 'MagSafe', d: 'Se pega por detrás y carga sin cables', k: ['iphone'], slots: '', T: ext({ con: 5800, c1: 7200, f1: 7800, x1: 8400 }),
-          bank: { x: 340, y: 340, s: 1.0, r: 10 }, away: { x: 340, y: 340, s: 1.0, r: 10 }, ox: 18, oy: 30, cables: [] },
+          bank: { x: 326, y: 340, s: 1.0, r: 10 }, away: { x: 326, y: 340, s: 1.0, r: 10 }, ox: 18, oy: 30, cables: [] },
         { key: 'usbc', t: 'Cable USB-C integrado', d: 'Sale del lateral y también sirve de correa', k: ['android'], slots: 'l', T: ext({ g0: 4650, g1: 5300, con: 5500, c1: 6900, f1: 7500, x1: 8100 }),
           phones: [SIDE_PH], bank: SIDE_BK, exit: [46, 10], cables: [{ kind: 'usbc', col: '#E9E1CF', from: 'l', ph: 0, c1: [-10, 125] }] },
         { key: 'lt', t: 'Cable Lightning integrado', d: 'Para tu iPhone', k: ['iphone'], slots: 'l', T: ext({ g0: 4650, g1: 5300, con: 5500, c1: 6900, f1: 7500, x1: 8100 }),
@@ -171,7 +171,7 @@
         { key: 'cc', t: 'USB-C a USB-C', d: 'Con tu propio cable, desde el puerto USB-C', k: ['android'], slots: 'p', T: ext({ a0: 4500, a1: 4800, g0: 4800, g1: 5400, con: 5600, c1: 7000, f1: 7600, x1: 8200 }),
           phones: [SIDE_PH], bank: SIDE_BK, exit: [46, 10], cables: [{ kind: 'usbc', col: '#F7F7F9', from: 'p', ph: 0 }] },
         { key: 'dual', t: 'Dos dispositivos a la vez', d: 'Comparte la carga con amigos o familia', k: ['android', 'iphone'], slots: 'l r', T: ext({ g0: 5000, g1: 5700, con: 5900, c1: 7300, f1: 7900, x1: 8500 }),
-          phones: [{ x: 105, y: 190, s: 1.05, rz: -4, ry: 0 }, { x: 315, y: 190, s: 1.05, rz: 4, ry: 0 }], bank: { x: 210, y: 408, s: 1.1, r: 0 }, exit: [0, 30],
+          phones: [{ x: 112, y: 190, s: 1.05, rz: -4, ry: -12 }, { x: 308, y: 190, s: 1.05, rz: 4, ry: -12 }], bank: { x: 210, y: 408, s: 1.1, r: 0 }, exit: [0, 30],
           cables: [{ kind: 'usbc', col: '#E9E1CF', from: 'l', ph: 0, c1: [-62, 18], k2: 70 }, { kind: 'lt', col: '#E9E1CF', from: 'r', ph: 1, c1: [62, 18], k2: 70 }] }
       ];
       function rad(d) { return d * Math.PI / 180; }
@@ -244,7 +244,7 @@
         shownIdx = i;
       }
       function place(ph, P) {
-        ph.el.style.transform = 'translate(' + (P.x - 210).toFixed(2) + 'px,' + (P.y - 250).toFixed(2) + 'px) rotate(' + P.rz.toFixed(2) + 'deg) rotateY(' + P.ry.toFixed(2) + 'deg) scale3d(' + P.s.toFixed(4) + ',' + P.s.toFixed(4) + ',' + P.s.toFixed(4) + ')';
+        ph.el.style.transform = 'translate(' + (P.x - 210).toFixed(2) + 'px,' + (P.y - 250).toFixed(2) + 'px) rotate(' + P.rz.toFixed(2) + 'deg) rotateY(' + P.ry.toFixed(2) + 'deg) rotateX(' + (P.rx || 0).toFixed(2) + 'deg) scale3d(' + P.s.toFixed(4) + ',' + P.s.toFixed(4) + ',' + P.s.toFixed(4) + ')';
       }
 
       function phonePose(lt, m) {
@@ -293,12 +293,13 @@
         /* teléfono principal */
         var P = phonePose(lt, m), nud = 0;
         if (!mag && lt >= t.con - 120 && lt < t.con + 180) nud = 5 * Math.sin(Math.PI * seg(lt, t.con - 120, t.con + 180));
-        var Pn = { x: P.x, y: P.y, s: P.s, rz: P.rz, ry: P.ry };
+        var idl = seg(lt, 0, 600) * (1 - seg(lt, 2200, 2900));
+        var Pn = { x: P.x, y: P.y, s: P.s, rz: P.rz, ry: P.ry + idl * (TILT + 4 * Math.sin(lt / 700)), rx: idl * -6 };
         if (nud) { Pn.x += Math.sin(rad(P.rz)) * nud; Pn.y -= Math.cos(rad(P.rz)) * nud; }
         place(PH[0], Pn);
         /* segundo teléfono (solo "dos dispositivos") */
         if (dual) {
-          var tg = m.phones[1], off = { x: 500, y: 190, s: 1.05, rz: 10, ry: 0 };
+          var tg = m.phones[1], off = { x: 500, y: 190, s: 1.05, rz: 10, ry: -12 };
           var q2 = lt < 4300 ? 0 : (lt < 5000 ? inOut(seg(lt, 4300, 5000)) : (lt < t.f1 ? 1 : 1 - inOut(seg(lt, t.f1, t.x1))));
           var P2 = mix(off, tg, q2);
           if (lt >= t.con - 120 && lt < t.con + 180) { var n2 = 5 * Math.sin(Math.PI * seg(lt, t.con - 120, t.con + 180)); P2.x += Math.sin(rad(P2.rz)) * n2; P2.y -= Math.cos(rad(P2.rz)) * n2; }
@@ -327,19 +328,19 @@
         if (mag) {
           var k = lt < 4600 ? 0 : (lt < 5150 ? snap(seg(lt, 4600, 5150)) : 1);
           var ex = 0, A = m.away;
-          if (lt >= t.f1) { var rk = seg(lt, t.f1, t.f1 + 450); ex = 150 * inOut(rk); po = 1 - rk; }
+          if (lt >= t.f1) { var rk = seg(lt, t.f1, t.f1 + 450); ex = 110 * inOut(rk); po = 1 - rk; }
           var cx = lerp(A.x, P.x, k), cy = lerp(A.y, P.y, k), s = lerp(A.s, P.s, k), rz = lerp(A.r, P.rz, k), ry = P.ry * k;
           tf = 'translate(' + (cx - 210).toFixed(1) + 'px,' + (cy - 250).toFixed(1) + 'px) rotate(' + rz.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) translate3d(' +
-            ((m.ox * k + ex) * s).toFixed(1) + 'px,' + (m.oy * k * s).toFixed(1) + 'px,' + (-26 * k * s).toFixed(1) + 'px) scale3d(' + s.toFixed(4) + ',' + s.toFixed(4) + ',' + s.toFixed(4) + ')';
+            ((m.ox * k + ex) * s).toFixed(1) + 'px,' + (m.oy * k * s).toFixed(1) + 'px,' + (-32 * k * s).toFixed(1) + 'px) scale3d(' + s.toFixed(4) + ',' + s.toFixed(4) + ',' + s.toFixed(4) + ')';
           fl = lt >= 5050 ? 1 - seg(lt, 5050, 5450) : 0;
         } else {
           var bx = B.x, by = B.y;
           if (lt >= t.f1) { var r2 = seg(lt, t.f1, t.f1 + 450); bx += m.exit[0] * inOut(r2); by += m.exit[1] * inOut(r2); po = 1 - r2; }
-          tf = 'translate(' + (bx - 210).toFixed(1) + 'px,' + (by - 250).toFixed(1) + 'px) rotate(' + B.r.toFixed(2) + 'deg) scale3d(' + B.s.toFixed(4) + ',' + B.s.toFixed(4) + ',' + B.s.toFixed(4) + ')';
+          tf = 'translate(' + (bx - 210).toFixed(1) + 'px,' + (by - 250).toFixed(1) + 'px) rotate(' + B.r.toFixed(2) + 'deg) rotateY(' + (dual ? -8 : -14) + 'deg) scale3d(' + B.s.toFixed(4) + ',' + B.s.toFixed(4) + ',' + B.s.toFixed(4) + ')';
         }
         pb.style.setProperty('--bo', po.toFixed(3));
         pb.style.transform = tf;
-        mo.style.setProperty('--fl', (fl * .85).toFixed(3));
+        mo.style.setProperty('--fl', (fl * .5).toFixed(3));
 
         /* enchufe del Power Bank (USB-C a USB-C) */
         if (m.cables[0] && m.cables[0].tipA) {
