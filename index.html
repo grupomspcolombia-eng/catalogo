@@ -40,7 +40,7 @@
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/Montserrat-normal-400.woff2?v=4" crossorigin />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/Montserrat-normal-700.woff2?v=4" crossorigin />
   <link rel="stylesheet" href="/assets/fonts.css?v=6" />
-  <link rel="stylesheet" href="assets/site.css?v=7" />
+  <link rel="stylesheet" href="assets/site.css?v=8" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -272,8 +272,8 @@
             <div class="hs" style="left:60.3%;top:64.6%"></div>
             <div class="hs" style="left:27.6%;top:59%"></div>
             <div class="hs" style="left:30.8%;top:68%"></div>
-            <div class="hl ch-s" style="left:62%;top:35%"><b>Cable</b><span>Integrado, siempre contigo</span></div>
-            <div class="hl ch-s" style="left:62%;top:86%"><b>Inalámbrica</b><span>5 · 7,5 · 10 · 15 W</span></div>
+            <div class="hl hl-r ch-s" style="left:62%;top:35%"><b>Cable</b><span>Integrado, siempre contigo</span></div>
+            <div class="hl hl-r ch-s" style="left:62%;top:86%"><b>Inalámbrica</b><span>5 · 7,5 · 10 · 15 W</span></div>
             <div class="hl ch-s" style="left:8%;top:33%"><b>Indicador</b><span>LED de batería</span></div>
             <div class="hl ch-s" style="left:8%;top:82%"><b>Grabado</b><span>Monograma MSP</span></div>
           </div>
@@ -459,45 +459,11 @@
         <img src="assets/mp-monograma.png" alt="" aria-hidden="true" class="regalo-watermark" loading="lazy" decoding="async" width="699" height="1157" />
         <div class="regalo-deckwrap">
           <div class="deck" id="deck" tabindex="0" role="group" aria-roledescription="animación" aria-label="Animación: un teléfono con la batería baja se carga de cinco formas con el Power Bank: MagSafe, cable USB-C integrado, cable Lightning integrado para iPhone, cable USB-C a USB-C y dos dispositivos a la vez. Toca para pasar a la siguiente; mantén presionado para pausar.">
-            <div class="momento" id="momento" data-state="idle" data-mode="mag" data-slots="" role="img" aria-label="Un teléfono muestra la foto del Power Bank; llega un mensaje importante y aparece el aviso de batería baja. La foto sale de la pantalla, se convierte en el Power Bank y carga el teléfono por MagSafe, con el cable USB-C integrado, con el cable Lightning integrado en un iPhone, con un cable USB-C a USB-C, o dos dispositivos a la vez.">
-              <div class="mo-rig">
-                <div class="mo-pb" aria-hidden="true">
-                  <div class="mo-pb-back"></div><i class="mo-pb-er"></i><i class="mo-pb-el"></i>
-                  <div class="mo-pb-face">
-                    <span class="mo-led"></span>
-                    <span class="mo-lens"></span>
-                    <span class="mo-slot mo-slot-l"></span><span class="mo-slot mo-slot-r"></span><span class="mo-port"></span>
-                    <img loading="lazy" decoding="async" class="mo-msp" src="assets/mp-monograma-footer.png" alt="" width="625" height="1035" />
-                  </div>
-                </div>
-                <svg class="mo-cable" viewBox="0 0 420 540" aria-hidden="true"></svg>
-                <div class="mo-phone" data-k="iphone" data-lvl="hi" aria-hidden="true">
-                  <div class="mo-front">
-                    <div class="mo-screen"></div>
-                    <div class="mo-notch"></div>
-                    <div class="mo-status"><span>8:12</span><span class="mo-sr"><i class="mo-bolt"></i><span class="mo-bat"><i></i></span></span></div>
-                    <div class="mo-alert"><span class="mo-ico"></span><div><b>Propuesta</b><small>Hoy · 8:30 pm</small></div></div>
-                    <div class="mo-ring">
-                      <svg viewBox="0 0 100 100"><circle class="trk" cx="50" cy="50" r="42"/><circle class="prg" cx="50" cy="50" r="42" pathLength="100"/></svg>
-                      <span class="mo-pct">100%</span>
-                    </div>
-                    <div class="mo-cap"></div>
-                    <div class="mo-lowbat"><i></i><div><b>Batería baja</b><small>3% restante</small></div></div>
-                  </div>
-                  <i class="mo-edge mo-edge-r"></i><i class="mo-edge mo-edge-l"></i>
-                  <div class="mo-back"></div>
-                </div>
-                <span class="mo-click" aria-hidden="true"></span><span class="mo-click" aria-hidden="true"></span>
-                <div class="mo-fly" aria-hidden="true">
-                  <img loading="lazy" decoding="async" src="assets/pb-caja.jpg" alt="" width="900" height="1200" />
-                  <img src="assets/caja-1.jpg" alt="" loading="lazy" decoding="async" width="900" height="1200" />
-                  <img src="assets/caja-2.jpg" alt="" loading="lazy" decoding="async" width="900" height="1200" />
-                  <img src="assets/caja-3.jpg" alt="" loading="lazy" decoding="async" width="900" height="1200" />
-                  <img src="assets/caja-4.jpg" alt="" loading="lazy" decoding="async" width="900" height="1200" />
-                </div>
+            <img class="mo-poster" src="assets/pb-caja.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="900" height="1200" />
+              <canvas class="mo-canvas" aria-hidden="true"></canvas>
+              <div class="momento" id="momento" data-state="idle" data-mode="mag" role="img" aria-label="Un teléfono muestra la foto del Power Bank; llega un mensaje importante y aparece el aviso de batería baja. La foto sale de la pantalla, se convierte en el Power Bank y carga el teléfono por MagSafe, con el cable USB-C integrado, con el cable Lightning integrado en un iPhone, con un cable USB-C a USB-C, o dos dispositivos a la vez.">
+                <div class="mo-label" aria-hidden="true"><b></b><span></span></div>
               </div>
-              <div class="mo-label" aria-hidden="true"><b></b><span></span></div>
-            </div>
           </div>
         </div>
         <div class="regalo-text">
@@ -652,6 +618,6 @@
 
   </div>
 
-  <script src="assets/site.js?v=5" defer></script>
+  <script src="assets/site.js?v=7" defer></script>
 </body>
 </html>
