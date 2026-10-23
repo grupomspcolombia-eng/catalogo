@@ -12,7 +12,7 @@ export var PB = { W: 150, H: 100, D: 34, R: 24, BEV: 7, MX: 28, MY: -2, MR: 41.2
 var VARIANTS = {
   ivory: { body: 0xe9e3d4, rough: .6, ring: '#e4ddcc', tick: 'rgba(118,110,96,.55)', logo: 'rgba(104,100,92,.92)', cable: 0xe7e0ce, btn: 0xdcd5c3,
     led: '#a6f3ff', ledGlow: '#7fe3f0', groove: 'rgba(60,52,40,.28)', recess: '#c9c2b1' },
-  black: { body: 0x19191c, rough: .5, ring: '#1b1b1e', tick: 'rgba(88,88,98,.62)', logo: 'rgba(92,92,104,.9)', cable: 0x141416, btn: 0x121214,
+  black: { body: 0x19191c, rough: .5, ring: '#1b1b1e', tick: 'rgba(88,88,98,.62)', logo: 'rgba(92,92,104,.9)', cable: 0x4c4c55, btn: 0x121214,
     led: '#46bfff', ledGlow: '#2e9bff', groove: 'rgba(0,0,0,.55)', recess: '#0b0b0d' }
 };
 

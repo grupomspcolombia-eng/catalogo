@@ -277,15 +277,15 @@ export function initDeck(deck, cfg) {
       } else if (type === 'lt') {
         var restL = A.ltRest.map(function (p) { return p.clone(); });
         if (d) {
-          var F2 = A.ltF, pre = portL.clone().addScaledVector(nrm, 52).add(new Vector3(0, 0, 5)), e4 = new Vector3(106, 72, 7);
-          var ext2 = [F2, new Vector3(70, -62, 4), new Vector3(112, -40, 8), new Vector3(122, 22, 8), e4, e4.clone().lerp(pre, .5), pre, portL];
+          var F2 = A.ltF, pre = portL.clone().addScaledVector(nrm, 52).add(new Vector3(0, 0, 5)), e4 = new Vector3(112, 104, -14);
+          var ext2 = [F2, new Vector3(70, -62, -6), new Vector3(114, -40, -14), new Vector3(126, 22, -16), e4, e4.clone().lerp(pre, .5), pre, portL];
           pts = blendPts(restL, ext2, e); refX = refRest.clone().lerp(px2, e).normalize();
         } else pts = restL;
       } else {
         var a = 28 * (1 - outCubic(seg(lt, t.a0, t.a1))), Pc = A.cPort;
         var p0 = new Vector3(Pc.x, Pc.y - 18 - a, 0);
-        var preC = portL.clone().addScaledVector(nrm, 52).add(new Vector3(0, 0, 5)), c4 = new Vector3(-118, 22, 8);
-        pts = [p0, new Vector3(Pc.x - 2, Pc.y - 30, 2), new Vector3(-62, -86, 6), new Vector3(-108, -52, 8), c4, c4.clone().lerp(preC, .5), preC, portL];
+        var preC = portL.clone().addScaledVector(nrm, 52).add(new Vector3(0, 0, 5)), c4 = new Vector3(-122, 84, -14);
+        pts = [p0, new Vector3(Pc.x - 2, Pc.y - 30, 2), new Vector3(-62, -86, -6), new Vector3(-110, -56, -14), new Vector3(-126, 14, -16), c4, c4.clone().lerp(preC, .5), preC, portL];
         cp = (lt >= t.g0 && lt < t.f1) ? inOut2(seg(lt, t.g0, t.g1)) : (lt >= t.f1 ? 1 - inOut2(seg(lt, t.f1 + 100, t.f1 + 520)) : 0);
         cab.group.visible = lt >= t.a0 && (lt < t.f1 + 520);
         cab.plug.visible = cp > .01;
