@@ -14,9 +14,9 @@ export function createStage(canvas) {
   var cam = new PerspectiveCamera(FOV, VW / VH, 100, 4000);
   var D = (VH / 2) / Math.tan(FOV * Math.PI / 360);
   cam.position.set(0, 0, D); cam.lookAt(0, 0, 0);
-  var key = new DirectionalLight(0xfff1e2, 2.2); key.position.set(-260, 320, 520); scene.add(key);
-  var rim = new DirectionalLight(0xffb0c4, 2.0); rim.position.set(380, 120, -220); scene.add(rim);
-  var fill = new DirectionalLight(0xdfe6ff, .55); fill.position.set(300, -220, 420); scene.add(fill);
+  var key = new DirectionalLight(0xffffff, 2.2); key.position.set(-260, 320, 520); scene.add(key);
+  var rim = new DirectionalLight(0xffffff, 2.0); rim.position.set(380, 120, -220); scene.add(rim);
+  var fill = new DirectionalLight(0xffffff, .55); fill.position.set(300, -220, 420); scene.add(fill);
   function size(cssW) {
     var w = Math.max(2, Math.round(cssW)), h = Math.round(w * VH / VW);
     r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));

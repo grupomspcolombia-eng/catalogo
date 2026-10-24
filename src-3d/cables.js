@@ -20,7 +20,7 @@ export function makePlug(kind, color) {
     g.userData.L = 18;
   } else {
     var sh = new Mesh(slab(6.8, 1.7, .5, 6.4, .3, 2).rotateX(-Math.PI / 2).translate(0, -3.2, 0), shellMat); g.add(sh);
-    var gold = new MeshStandardMaterial({ color: 0xc9a24a, metalness: 1, roughness: .3 });
+    var gold = new MeshStandardMaterial({ color: 0xdcdcdc, metalness: 1, roughness: .3 });
     for (var i = 0; i < 4; i++) { var c = new Mesh(new PlaneGeometry(.8, 3.6).rotateX(-Math.PI / 2), gold); c.position.set(-2.4 + i * 1.6, .86, -1.8); g.add(c); }
     var ov = new Mesh(slab(8.6, 4.8, 2, 10, .75, 4).rotateX(-Math.PI / 2).translate(0, -11.4, 0), mold); g.add(ov);
     g.userData.L = 16.4;
@@ -47,7 +47,7 @@ var braid = canvasTex(64, 64, function (x, w, h) {
   for (var j = -2; j < 6; j++) { x.beginPath(); x.moveTo(j * 16 + 64, 0); x.lineTo(j * 16, 64); x.stroke(); }
 }, { linear: true, repeat: true });
 var pulseTex = canvasTex(256, 8, function (x, w, h) {
-  x.clearRect(0, 0, w, h); var g = x.createLinearGradient(0, 0, 90, 0); g.addColorStop(0, 'rgba(242,200,91,0)'); g.addColorStop(.7, 'rgba(255,214,120,.55)'); g.addColorStop(1, 'rgba(255,236,170,.9)');
+  x.clearRect(0, 0, w, h); var g = x.createLinearGradient(0, 0, 90, 0); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.7, 'rgba(255,255,255,.55)'); g.addColorStop(1, 'rgba(255,255,255,.9)');
   x.fillStyle = g; x.fillRect(0, 0, 90, h);
 }, { repeat: true });
 

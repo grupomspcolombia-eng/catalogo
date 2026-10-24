@@ -45,7 +45,7 @@ export function drawScreen(x, W, H, S) {
   x.fillStyle = 'rgba(255,255,255,.72)'; rrPath(x, (bx + 18.4) * k, (by + 2.4) * k, 1.4 * k, 2.8 * k, .7 * k); x.fill();
   x.fillStyle = S.lv; rrPath(x, (bx + 1) * k, (by + 1) * k, Math.max(1.2, 15.5 * S.pct / 100) * k, 5.6 * k, 1.4 * k); x.fill();
   if (S.bolt) {
-    var bX = (bx - 7) * k, bY = 6.2 * k; x.fillStyle = '#F2C85B'; x.beginPath();
+    var bX = (bx - 7) * k, bY = 6.2 * k; x.fillStyle = '#FFFFFF'; x.beginPath();
     x.moveTo(bX + 3.6 * k, bY); x.lineTo(bX, bY + 4.5 * k); x.lineTo(bX + 2.4 * k, bY + 4.5 * k); x.lineTo(bX + 1.8 * k, bY + 8.6 * k);
     x.lineTo(bX + 6 * k, bY + 3.2 * k); x.lineTo(bX + 3.4 * k, bY + 3.2 * k); x.closePath(); x.fill();
   }
@@ -59,7 +59,7 @@ export function drawScreen(x, W, H, S) {
     x.save(); x.shadowColor = S.lv; x.shadowBlur = 9 * k; x.strokeStyle = S.lv;
     x.beginPath(); x.arc(cx, cy, R, -Math.PI / 2, -Math.PI / 2 + 6.2832 * Math.min(1, S.pct / 100)); x.stroke(); x.restore();
   }
-  x.fillStyle = S.pctLow ? '#FF8C97' : '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.fillStyle = '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
   x.font = '800 ' + (21 * k) + 'px ' + FONT; x.fillText(Math.round(S.pct) + '%', cx, cy + .5 * k);
   x.restore();
   if (S.cap) { x.textAlign = 'center'; x.fillStyle = 'rgba(255,255,255,.82)'; x.font = '600 ' + (8 * k) + 'px ' + FONT; x.fillText(S.cap, cx, cy + R + 15 * k); }
@@ -81,8 +81,8 @@ export function drawScreen(x, W, H, S) {
     x.fillStyle = 'rgba(255,255,255,.68)'; x.font = '500 ' + (7.4 * k) + 'px ' + FONT; x.fillText(t2, 33 * k, (y + off + 18.6) * k);
     x.restore();
   }
-  card(S.alertP, 24, 'msg', '#E6A0B0', S.ev, '#fff', S.when);
-  card(S.lowP, 55, 'bat', '#FF4D5E', 'Batería baja', '#FFB3BB', '3% restante', true);
+  card(S.alertP, 24, 'msg', '#FFFFFF', S.ev, '#fff', S.when);
+  card(S.lowP, 55, 'bat', '#FF0040', 'Batería baja', '#FFFFFF', '3% restante', true);
 
   /* indicador de inicio */
   x.fillStyle = 'rgba(255,255,255,.4)'; rrPath(x, 40.6 * k, (PH.SH - 5) * k, 41.2 * k, 1.9 * k, 1 * k); x.fill();
@@ -120,20 +120,20 @@ export function buildPhone(kind) {
     var cyl = new Mesh(new CylinderGeometry(r, r, 1.2, 40).rotateX(Math.PI / 2), black); cyl.position.z = .1; g.add(cyl);
     var gl = new Mesh(new CircleGeometry(r * .8, 36), new MeshPhysicalMaterial({ color: 0x07090f, roughness: .04, metalness: 0, clearcoat: 1, envMapIntensity: 1.6 }));
     gl.position.z = .72; g.add(gl);
-    var dot = new Mesh(new CircleGeometry(r * .3, 24), new MeshBasicMaterial({ color: 0x1d2a52 })); dot.position.set(-r * .18, r * .2, .74); g.add(dot);
+    var dot = new Mesh(new CircleGeometry(r * .3, 24), new MeshBasicMaterial({ color: 0x2a2a30 })); dot.position.set(-r * .18, r * .2, .74); g.add(dot);
     parent.add(g);
   }
   var camMat = new MeshPhysicalMaterial({ color: iph ? 0x26262b : 0x14171c, roughness: .35, metalness: .15, clearcoat: .5 });
   if (iph) {
     var pl = new Mesh(slab(45, 45, 11, 2.6, .8, 5), camMat); pl.position.set(-35, 104, 1.1); back.add(pl);
     lens(back, -43.5, 112, 8.6); lens(back, -43.5, 94, 8.6); lens(back, -26.5, 103, 8.6);
-    var fl = new Mesh(new CircleGeometry(2.3, 20), new MeshBasicMaterial({ color: 0xf1ead0 })); fl.position.set(-25.5, 117.5, 2.5); back.add(fl);
+    var fl = new Mesh(new CircleGeometry(2.3, 20), new MeshBasicMaterial({ color: 0xf4f4f4 })); fl.position.set(-25.5, 117.5, 2.5); back.add(fl);
     var lidar = new Mesh(new CircleGeometry(2.6, 20), black); lidar.position.set(-25.5, 89.5, 2.5); back.add(lidar);
     var mag = new Mesh(new TorusGeometry(25.5, .22, 6, 90), new MeshBasicMaterial({ color: 0x3b3b42 })); mag.position.set(0, 24, .02); back.add(mag);
   } else {
     var bar = new Mesh(slab(W - 2.5, 25, 5, 2.4, .7, 5), camMat); bar.position.set(0, 96, 1.0); back.add(bar);
     lens(back, -24, 96, 7.8); lens(back, -4, 96, 7.8);
-    var fl2 = new Mesh(new CircleGeometry(2.4, 20), new MeshBasicMaterial({ color: 0xf1ead0 })); fl2.position.set(17, 96, 2.2); back.add(fl2);
+    var fl2 = new Mesh(new CircleGeometry(2.4, 20), new MeshBasicMaterial({ color: 0xf4f4f4 })); fl2.position.set(17, 96, 2.2); back.add(fl2);
   }
 
   /* botones laterales */

@@ -120,7 +120,7 @@
       function loadDeck() {
         if (loaded) return; loaded = true;
         if (!webgl) { deck.classList.add('no-3d'); return; }
-        var sc = document.createElement('script'); sc.src = 'assets/regalo3d.js?v=7'; sc.async = true;
+        var sc = document.createElement('script'); sc.src = 'assets/regalo3d.js?v=8'; sc.async = true;
         sc.onerror = function () { deck.classList.add('no-3d'); };
         document.head.appendChild(sc);
       }

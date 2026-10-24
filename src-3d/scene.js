@@ -92,7 +92,7 @@ export function initDeck(deck, cfg) {
 
   /* anillo de "clic" al conectar (dorado, mira a la cámara) */
   var clicks = [0, 1].map(function () {
-    var m = new Mesh(new RingGeometry(9, 11.5, 48), new MeshBasicMaterial({ color: 0xF2C85B, transparent: true, blending: AdditiveBlending, depthTest: false, depthWrite: false, opacity: 0, toneMapped: false }));
+    var m = new Mesh(new RingGeometry(9, 11.5, 48), new MeshBasicMaterial({ color: 0xFFFFFF, transparent: true, blending: AdditiveBlending, depthTest: false, depthWrite: false, opacity: 0, toneMapped: false }));
     m.renderOrder = 22; m.frustumCulled = false; scene.add(m); return m;
   });
 
@@ -129,7 +129,7 @@ export function initDeck(deck, cfg) {
     shownIdx = i;
   }
 
-  function lvOf(p) { return p < 20 ? '#FF4D5E' : (p < 60 ? '#FFB347' : '#F2C85B'); }
+  function lvOf(p) { return p < 20 ? '#FF0040' : '#FFFFFF'; }
   function shakeAt(lt) { var q = (lt % 1100) / 1100; return q < .86 ? 0 : (q < .9 ? -1.7 * (q - .86) / .04 : (q < .94 ? -1.7 + 3.4 * (q - .9) / .04 : (q < .98 ? 1.7 - 2.6 * (q - .94) / .04 : -.9 * (1 - (q - .98) / .02)))); }
   function setPct(ph, o, pct) { ph.pctVal = pct; }
 
@@ -271,21 +271,21 @@ export function initDeck(deck, cfg) {
       if (type === 'usbc') {
         var rest = A.loop.map(function (p) { return p.clone(); });
         if (d) {
-          var F = A.loopF, ext1 = bezPts(F, F.clone().add(new Vector3(26, 52, -10)), portL.clone().addScaledVector(nrm, 46).add(new Vector3(0, 0, -10)), portL, 8);
+          var F = A.loopF, ext1 = bezPts(F, F.clone().add(new Vector3(26, 52, -10)), portL.clone().addScaledVector(nrm, 62), portL, 8);
           pts = blendPts(rest, ext1, e); refX = refRest.clone().lerp(px2, e).normalize();
         } else pts = rest;
       } else if (type === 'lt') {
         var restL = A.ltRest.map(function (p) { return p.clone(); });
         if (d) {
-          var F2 = A.ltF, pre = portL.clone().addScaledVector(nrm, 52).add(new Vector3(0, 0, 5)), e4 = new Vector3(112, 104, -14);
-          var ext2 = [F2, new Vector3(70, -62, -6), new Vector3(114, -40, -14), new Vector3(126, 22, -16), e4, e4.clone().lerp(pre, .5), pre, portL];
+          var F2 = A.ltF, L = Math.max(14, Math.min(60, portL.y - 78)), pre = portL.clone().addScaledVector(nrm, L * .45), preF = portL.clone().addScaledVector(nrm, L), e4 = new Vector3(Math.max(114, preF.x + 22), preF.y - 4, -14);
+          var ext2 = [F2, new Vector3(70, -62, -6), new Vector3(114, -40, -14), new Vector3(126, 22, -16), e4, preF, pre, portL];
           pts = blendPts(restL, ext2, e); refX = refRest.clone().lerp(px2, e).normalize();
         } else pts = restL;
       } else {
         var a = 28 * (1 - outCubic(seg(lt, t.a0, t.a1))), Pc = A.cPort;
         var p0 = new Vector3(Pc.x, Pc.y - 18 - a, 0);
-        var preC = portL.clone().addScaledVector(nrm, 52).add(new Vector3(0, 0, 5)), c4 = new Vector3(-122, 84, -14);
-        pts = [p0, new Vector3(Pc.x - 2, Pc.y - 30, 2), new Vector3(-62, -86, -6), new Vector3(-110, -56, -14), new Vector3(-126, 14, -16), c4, c4.clone().lerp(preC, .5), preC, portL];
+        var L = Math.max(14, Math.min(60, portL.y - 78)), preC = portL.clone().addScaledVector(nrm, L * .45), preCF = portL.clone().addScaledVector(nrm, L), c4 = new Vector3(Math.min(-122, preCF.x - 22), preCF.y - 4, -14);
+        pts = [p0, new Vector3(Pc.x - 2, Pc.y - 30, 2), new Vector3(-62, -86, -6), new Vector3(-110, -56, -14), new Vector3(-126, 14, -16), c4, preCF, preC, portL];
         cp = (lt >= t.g0 && lt < t.f1) ? inOut2(seg(lt, t.g0, t.g1)) : (lt >= t.f1 ? 1 - inOut2(seg(lt, t.f1 + 100, t.f1 + 520)) : 0);
         cab.group.visible = lt >= t.a0 && (lt < t.f1 + 520);
         cab.plug.visible = cp > .01;
